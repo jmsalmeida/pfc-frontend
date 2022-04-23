@@ -1,0 +1,10 @@
+version: "3.5"
+services:
+  cola_aqui_native:
+    build: .
+    ports:
+      - 19000:19000
+      - 19001:19001
+      - 19002:19002
+    environment:
+      - EXPO_DEVTOOLS_LISTEN_ADDRESS=0.0.0.0

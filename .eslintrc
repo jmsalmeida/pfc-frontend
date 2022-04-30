@@ -1,0 +1,25 @@
+{
+  "extends": ["airbnb", "prettier"], // extend airbnb's JavaScript style guide: https://github.com/airbnb/javascript and prettier file
+  "parser": "babel-eslint", // allows us to parse the code with babel so that jsx code won't be considered an error
+  "parserOptions": {
+    "ecmaFeatures": { // specify which additional language features to use
+      "jsx": true
+    }
+  },
+  "plugins": [
+    "react",
+    "jsx-a11y",
+    "import",
+    "react-native" // add eslint-plugin-react-native as a plugin for ESLint
+  ],
+  "env": {
+    "react-native/react-native": true // whitelist all browser-like globals
+  },
+  "rules": {
+    "global-require": "off", // React Native images uses the require syntax so we're turning it off so that we don't get any errors
+    "react/jsx-filename-extension": ["error", { "extensions": [".js", ".jsx"] }], // only return an error if JSX syntax is used on files other than those with .js or .jsx file extension
+    "react-native/no-unused-styles": 2, // disallow unused styles
+    "react-native/no-inline-styles": 2, // disallow styles declared within the component itself
+    "react-native/no-color-literals": 2 // enforces variable names to be used for storing colors
+  }
+}

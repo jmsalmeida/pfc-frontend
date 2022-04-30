@@ -32,7 +32,8 @@
     "react-native-safe-area-context": "3.2.0",
     "react-native-screens": "~3.0.0",
     "react-native-svg": "12.1.0",
-    "react-native-web": "0.17.1"
+    "react-native-web": "0.17.1",
+    "react-query": "^3.38.0"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",
@@ -40,7 +41,9 @@
     "eslint": "^8.14.0",
     "eslint-plugin-react": "^7.29.4",
     "eslint-plugin-react-native": "^4.0.0",
-    "prettier-eslint": "^14.0.2"
+    "prettier-eslint": "^14.0.2",
+    "react-native-flipper": "^0.127.0",
+    "react-query-native-devtools": "^4.0.0"
   },
   "private": true
 }

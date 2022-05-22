@@ -5,7 +5,7 @@ import { Button, Divider, Layout, TopNavigation } from '@ui-kitten/components';
 export const HomeScreen = ({ navigation }) => {
 
   const navigateDetails = () => {
-    navigation.navigate('Details');
+    navigation.navigate('RegisterPartyer');
   };
 
   return (
@@ -13,7 +13,7 @@ export const HomeScreen = ({ navigation }) => {
       <TopNavigation title='MyApp' alignment='center'/>
       <Divider/>
       <Layout style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-        <Button onPress={navigateDetails}>OPEN DETAILS</Button>
+        <Button onPress={navigateDetails}>Cadastrar cliente</Button>
       </Layout>
     </SafeAreaView>
   );

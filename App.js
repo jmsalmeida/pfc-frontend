@@ -1,5 +1,8 @@
 import React from 'react';
 
+// Toast messages
+import Toast from 'react-native-toast-message';
+
 // UI
 import * as eva from '@eva-design/eva';
 import { ApplicationProvider, IconRegistry } from '@ui-kitten/components';
@@ -29,6 +32,8 @@ export default function App() {
       <ApplicationProvider {...eva} theme={eva.light}>
         <AppNavigator/>
       </ApplicationProvider>
+
+      <Toast />
     </QueryClientProvider>
   );
 }

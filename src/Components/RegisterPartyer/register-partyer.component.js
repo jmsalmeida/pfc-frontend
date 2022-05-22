@@ -57,7 +57,7 @@ export const RegisterPartyerScreen = ({ navigation }) => {
         type: 'success',
         text1: 'Cadastrado com sucesso',
         text2: `Bem vindo ${newPartyer.name}, por favor faça o login.`,
-        onShow: () => navigation.navigate('Home')
+        onShow: () => navigation.navigate('Login')
       });
     }).catch(() => {
       Toast.show({

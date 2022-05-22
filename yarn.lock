@@ -1423,7 +1423,7 @@
   "resolved" "https://registry.npmjs.org/@expo/vector-icons/-/vector-icons-13.0.0.tgz"
   "version" "13.0.0"
 
-"@expo/webpack-config@~0.16.2":
+"@expo/webpack-config@~0.16.21":
   "integrity" "sha512-HwFvBMtikal8s2mwf3veE8TReVOhkuMXX7HOBhRq8BSbq7RPnVzh6r8tVJVrIaWfqRn3s85GFvzU0YjqcvvHLA=="
   "resolved" "https://registry.npmjs.org/@expo/webpack-config/-/webpack-config-0.16.23.tgz"
   "version" "0.16.23"
@@ -10521,7 +10521,7 @@
   "resolved" "https://registry.npmjs.org/react-native-gradle-plugin/-/react-native-gradle-plugin-0.0.6.tgz"
   "version" "0.0.6"
 
-"react-native-reanimated@^2.8.0":
+"react-native-reanimated@~2.8.0":
   "integrity" "sha512-kJvf/UWLBMaGCs9X66MKq5zdFMgwx8D0nHnolbHR7s8ZnbLdb7TlQ/yuzIXqn/9wABfnwtNRI3CyaP1aHWMmZg=="
   "resolved" "https://registry.npmjs.org/react-native-reanimated/-/react-native-reanimated-2.8.0.tgz"
   "version" "2.8.0"

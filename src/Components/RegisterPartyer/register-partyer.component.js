@@ -104,7 +104,7 @@ export const RegisterPartyerScreen = ({ navigation }) => {
     <Layout style={{ flex: 1, paddingTop: 20 }}>
       <TopNavigation title='Cadastro de usuário' alignment='center' accessoryLeft={BackAction} />
       <Divider/>
-
+  
       <Layout style={styles.container}>
         <ScrollView>
           <Layout style={styles.formContainer}>

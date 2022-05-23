@@ -193,6 +193,7 @@ export const RegisterPartyerScreen = ({ navigation }) => {
               !invalidConfirmation(email.toLowerCase(), emailConfirmation.toLowerCase())
             ])}
             onPress={() => mutation.mutate({
+              userType: 'partyer',
               name: `${name} ${lastName}`,
               gender: genders[selectedIndex.row],
               birthDate, email, emailConfirmation, password, passwordConfirmation

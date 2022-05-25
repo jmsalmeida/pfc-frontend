@@ -104,7 +104,7 @@ export const RegisterPartyerScreen = ({ navigation }) => {
     <Layout style={{ flex: 1, paddingTop: 20 }}>
       <TopNavigation title='Cadastro de usuário' alignment='center' accessoryLeft={BackAction} />
       <Divider/>
-  
+
       <Layout style={styles.container}>
         <ScrollView>
           <Layout style={styles.formContainer}>
@@ -132,6 +132,7 @@ export const RegisterPartyerScreen = ({ navigation }) => {
               min={new Date(1900, 0, 0)}
               accessoryRight={generateIcon('calendar')}
               onSelect={nextDate => setBirthDate(nextDate)}
+              status={isUnderAge(birthDate) ? 'danger' : ''}
               caption={renderCaption(isUnderAge(birthDate), 'Não é permitido o cadastro de menores de idade')}
             />
 
@@ -152,16 +153,18 @@ export const RegisterPartyerScreen = ({ navigation }) => {
               label='Email'
               placeholder='Digite seu melhor email'
               value={email}
-              caption={renderCaption(invalidConfirmation(email.toLowerCase(), emailConfirmation.toLowerCase()), "Email deve ser igual a confirmação")}
-              onChangeText={nextValue => setEmail(nextValue)}
+              status={invalidConfirmation(email, emailConfirmation) ? 'danger' : ''}
+              caption={renderCaption(invalidConfirmation(email, emailConfirmation), "Email deve ser igual a confirmação")}
+              onChangeText={nextValue => setEmail(nextValue.toLowerCase())}
             />
 
             <Input style={styles.inputContainer}
               label='Confirmação de email'
               placeholder='Digite a confirmação de email'
               value={emailConfirmation}
-              caption={renderCaption(invalidConfirmation(email.toLowerCase(), emailConfirmation.toLowerCase()), "Email deve ser igual a confirmação")}
-              onChangeText={nextValue => setEmailConfirmation(nextValue)}
+              status={invalidConfirmation(email, emailConfirmation) ? 'danger' : ''}
+              caption={renderCaption(invalidConfirmation(email, emailConfirmation), "Email deve ser igual a confirmação")}
+              onChangeText={nextValue => setEmailConfirmation(nextValue.toLowerCase())}
             />
 
             <Input style={styles.inputContainer}
@@ -169,6 +172,7 @@ export const RegisterPartyerScreen = ({ navigation }) => {
               placeholder='Digite a sua senha'
               value={password}
               secureTextEntry={true}
+              status={invalidConfirmation(password, passwordConfirmation) ? 'danger' : ''}
               caption={renderCaption(invalidConfirmation(password, passwordConfirmation), "Senha deve ser igual a confirmação")}
               onChangeText={nextValue => setPassword(nextValue)}
             />
@@ -178,6 +182,7 @@ export const RegisterPartyerScreen = ({ navigation }) => {
               placeholder='Digite a confirmação da senha'
               value={passwordConfirmation}
               secureTextEntry={true}
+              status={invalidConfirmation(password, passwordConfirmation) ? 'danger' : ''}
               caption={renderCaption(invalidConfirmation(password, passwordConfirmation), "Senha deve ser igual a confirmação")}
               onChangeText={nextValue => setPasswordConfirmation(nextValue)}
             />
@@ -201,7 +206,6 @@ export const RegisterPartyerScreen = ({ navigation }) => {
           >
             cadastrar usuário
           </Button>
-
         </Layout>
       </Layout>
     </Layout>

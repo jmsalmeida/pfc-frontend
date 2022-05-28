@@ -9,7 +9,7 @@ import { disableButton } from '../../util/utils.js';
 
 export const LoginScreen = ({ navigation }) => {
   const navigateRegister = () => {
-    navigation.navigate('RegisterPartyer');
+    navigation.navigate('SelectUserType');
   };
 
   const [email, setEmail] = React.useState('');

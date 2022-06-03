@@ -1,9 +1,7 @@
 import React from 'react';
-import axios from 'axios';
 import moment from 'moment';
 import Toast from 'react-native-toast-message';
 
-import { useMutation } from 'react-query';
 import { disableButton } from '../../../util/utils';
 import { StyleSheet, View, ScrollView } from 'react-native';
 import {
@@ -50,26 +48,41 @@ export const RegisterPartyerScreen = ({ navigation }) => {
     <SelectItem key={title} title={title}/>
   );
 
-  const registerPartyer = (newPartyer) => {
-    axios.post('http://localhost:3000/partyers', newPartyer)
-    .then(() => {
-      Toast.show({
-        type: 'success',
-        text1: 'Cadastrado com sucesso',
-        text2: `Bem vindo ${newPartyer.name}, por favor faça o login.`,
-        onShow: () => navigation.navigate('Login')
-      });
-    }).catch(() => {
+  const registerPartyer = (event) => {
+    event.preventDefault();
+
+    const partyer = {
+      name: `${name} ${lastName}`,
+      gender: genders[selectedIndex.row],
+      birthDate, email, emailConfirmation, password, passwordConfirmation
+    };
+
+    const Frisbee = require('frisbee');
+    const api = new Frisbee({
+      baseURI: 'http://localhost:3000',
+      headers: { 'Content-type': 'application/json; charset=utf-8' }
+    });
+
+    api.post('/partyers', { body: JSON.stringify(partyer) })
+    .then((response) => {
+      if (response.ok) {
+        Toast.show({
+          type: 'success',
+          text1: 'Cadastrado com sucesso',
+          text2: `Bem vindo ${partyer.name}, por favor faça o login.`,
+          onShow: () => navigation.navigate('Login')
+        });
+      } else {
+        throw new Error(response.body)
+      }
+    }).catch((error) => {
       Toast.show({
         type: 'error',
-        text1: 'Erro ao cadastrar',
-        // TODO: Use api error messages
-        text2: 'Algo deu errado com a tentativa de cadastro!'
+        text1: 'Algo deu errado com a tentativa de cadastro!',
+        text2: `${error}`
       });
     });
   }
-
-  const mutation = useMutation(registerPartyer);
 
   const invalidConfirmation = (value, valueToCompare) => {
     if (!value || !valueToCompare) return false;
@@ -101,10 +114,10 @@ export const RegisterPartyerScreen = ({ navigation }) => {
   }
 
   return (
-    <Layout style={{ flex: 1, paddingTop: 20 }}>
+    <Layout style={{ flex: 1 }}>
       <TopNavigation title='Cadastro de usuário' alignment='center' accessoryLeft={BackAction} />
       <Divider/>
-  
+
       <Layout style={styles.container}>
         <ScrollView>
           <Layout style={styles.formContainer}>
@@ -190,17 +203,12 @@ export const RegisterPartyerScreen = ({ navigation }) => {
               name, lastName, selectedIndex, password, passwordConfirmation,
               !isUnderAge(birthDate),
               (password === passwordConfirmation),
-              !invalidConfirmation(email.toLowerCase(), emailConfirmation.toLowerCase())
+              (email.toLowerCase() == emailConfirmation.toLowerCase()),
             ])}
-            onPress={() => mutation.mutate({
-              name: `${name} ${lastName}`,
-              gender: genders[selectedIndex.row],
-              birthDate, email, emailConfirmation, password, passwordConfirmation
-            })}
+            onPress={registerPartyer}
           >
             cadastrar usuário
           </Button>
-
         </Layout>
       </Layout>
     </Layout>

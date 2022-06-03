@@ -1,8 +1,6 @@
 import React from 'react';
-import axios from 'axios';
 import Toast from 'react-native-toast-message';
 
-import { useMutation } from 'react-query';
 import { StyleSheet, Image } from 'react-native';
 import { Button, Layout, Input, Text } from '@ui-kitten/components';
 import { disableButton } from '../../util/utils.js';
@@ -15,29 +13,32 @@ export const LoginScreen = ({ navigation }) => {
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
 
-  const authenticateUser = (credentials) => {
-    axios.post('http://localhost:3000/api-keys', {}, {
-      auth: {
-        username: credentials.email,
-        password: credentials.password
+  const authenticateUser = (event) => {
+    event.preventDefault();
+
+    const headers = new Headers();
+    headers.set('Authorization', 'Basic ' + btoa(`${email}:${password}`));
+    fetch('http://localhost:3000/api-keys', { method: 'POST', headers })
+    .then(response => {
+      if (response.ok) {
+        Toast.show({
+          type: 'success',
+          text1: 'Bem vindo ao Cola Aqui!',
+          onShow: () => navigation.navigate('SearchParty')
+        });
+      } else {
+        throw response
       }
-    }).then(() => {
-      Toast.show({
-        type: 'success',
-        text1: 'Bem vindo ao Cola Aqui!',
-        onShow: () => navigation.navigate('SearchParty')
-      });
-    }).catch((e) => {
-      if (e.response.status === 401) {
+    }).catch((error) => {
+      if (error && error.status === 401) {
         Toast.show({
           type: 'error',
-          text1: 'Usuário e/ou senha inválidos'
+          text1: 'Usuário e/ou senha inválidos',
+          onHide: () => setPassword('')
         });
       }
     });
   }
-
-  const mutation = useMutation(authenticateUser);
 
   return (
     <Layout style={{ flex: 1 }}>
@@ -67,7 +68,7 @@ export const LoginScreen = ({ navigation }) => {
         <Layout>
           <Button style={styles.actionButton}
             disabled={disableButton([email, password])}
-            onPress={() => mutation.mutate({ email, password })}>
+            onPress={authenticateUser}>
             Acessar
           </Button>
 
@@ -99,7 +100,7 @@ const styles = StyleSheet.create({
   },
 
   logoImage: {
-    width: 200, height: 200,
-    borderRadius: '50%'
+    width: 200,
+    height: 200,
   }
 });

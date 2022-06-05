@@ -1,5 +1,8 @@
 import React from 'react';
 
+import store from './src/store'
+import { Provider } from 'react-redux';
+
 // Toast messages
 import Toast from 'react-native-toast-message';
 
@@ -26,14 +29,16 @@ export default function App() {
   const queryClient = new QueryClient()
 
   return (
-    <QueryClientProvider client={queryClient}>
-      <IconRegistry icons={EvaIconsPack}/>
+    <Provider store={store}>
+      <QueryClientProvider client={queryClient}>
+        <IconRegistry icons={EvaIconsPack}/>
 
-      <ApplicationProvider {...eva} theme={eva.light}>
-        <AppNavigator/>
-      </ApplicationProvider>
+        <ApplicationProvider {...eva} theme={eva.light}>
+          <AppNavigator/>
+        </ApplicationProvider>
 
-      <Toast />
-    </QueryClientProvider>
+        <Toast />
+      </QueryClientProvider>
+    </Provider>
   );
 }

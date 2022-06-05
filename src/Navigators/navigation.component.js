@@ -7,17 +7,27 @@ import { RegisterPartyerScreen } from '../Components/Register/RegisterPartyer/re
 import { RegisterPartyPlaceScreen } from '../Components/Register/RegisterPartyer/register-party-place.component';
 import { SelectUserTypeScreen } from '../Components/Register/Select-user-type/select-user-type.component';
 
+import { useSelector } from 'react-redux';
+
 const { Navigator, Screen } = createStackNavigator();
 
-const LoginNavigator = () => (
-  <Navigator screenOptions={{headerShown: false}}>
-    <Screen name='Login' component={LoginScreen}/>
-    <Screen name='SearchParty' component={SearchPartyScreen} />
-    <Screen name='SelectUserType' component={SelectUserTypeScreen} />
-    <Screen name='RegisterPartyer' component={RegisterPartyerScreen} />
-    <Screen name='RegisterPartyPlace' component={RegisterPartyPlaceScreen} />
-  </Navigator>
-);
+const LoginNavigator = () => {
+  const userToken = useSelector(state => state.userToken.value)
+  return (
+    userToken ? (
+      <Navigator screenOptions={{headerShown: false}}>
+        <Screen name='SearchParty' component={SearchPartyScreen} />
+      </Navigator>
+    ) : (
+      <Navigator screenOptions={{headerShown: false}}>
+        <Screen name='Login' component={LoginScreen}/>
+        <Screen name='SelectUserType' component={SelectUserTypeScreen} />
+        <Screen name='RegisterPartyer' component={RegisterPartyerScreen} />
+        <Screen name='RegisterPartyPlace' component={RegisterPartyPlaceScreen} />
+      </Navigator>
+    )
+  )
+}
 
 export const AppNavigator = () => (
   <NavigationContainer>

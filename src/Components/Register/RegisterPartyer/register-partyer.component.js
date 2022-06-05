@@ -2,6 +2,7 @@ import React from 'react';
 import moment from 'moment';
 import Toast from 'react-native-toast-message';
 
+import { api } from '../../../Services/api';
 import { disableButton } from '../../../util/utils';
 import { StyleSheet, View, ScrollView } from 'react-native';
 import {
@@ -56,12 +57,6 @@ export const RegisterPartyerScreen = ({ navigation }) => {
       gender: genders[selectedIndex.row],
       birthDate, email, emailConfirmation, password, passwordConfirmation
     };
-
-    const Frisbee = require('frisbee');
-    const api = new Frisbee({
-      baseURI: 'http://localhost:3000',
-      headers: { 'Content-type': 'application/json; charset=utf-8' }
-    });
 
     api.post('/partyers', { body: JSON.stringify(partyer) })
     .then((response) => {

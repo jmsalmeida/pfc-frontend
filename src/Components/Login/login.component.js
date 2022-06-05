@@ -5,7 +5,12 @@ import { StyleSheet, Image } from 'react-native';
 import { Button, Layout, Input, Text } from '@ui-kitten/components';
 import { disableButton } from '../../util/utils.js';
 
+import { useDispatch } from 'react-redux';
+import { setUserToken } from '../../reducers/application.js';
+
 export const LoginScreen = ({ navigation }) => {
+  const dispatch = useDispatch();
+
   const navigateRegister = () => {
     navigation.navigate('SelectUserType');
   };
@@ -13,31 +18,34 @@ export const LoginScreen = ({ navigation }) => {
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
 
-  const authenticateUser = (event) => {
+  const authenticateUser = async (event) => {
     event.preventDefault();
 
     const headers = new Headers();
     headers.set('Authorization', 'Basic ' + btoa(`${email}:${password}`));
-    fetch('http://localhost:3000/api-keys', { method: 'POST', headers })
-    .then(response => {
-      if (response.ok) {
-        Toast.show({
-          type: 'success',
-          text1: 'Bem vindo ao Cola Aqui!',
-          onShow: () => navigation.navigate('SearchParty')
-        });
-      } else {
-        throw response
-      }
-    }).catch((error) => {
+
+    try {
+      const response = await fetch('http://localhost:3000/api-keys', { method: 'POST', headers });
+      if (!response.ok) throw response;
+
+      Toast.show({
+        type: 'success',
+        text1: 'Bem vindo ao Cola Aqui!',
+      });
+      const json = await response.json();
+      if (!json.token) throw response;
+      dispatch(setUserToken(json));
+    } catch(error) {
       if (error && error.status === 401) {
         Toast.show({
           type: 'error',
           text1: 'Usuário e/ou senha inválidos',
           onHide: () => setPassword('')
         });
+      } else {
+        console.error(error);
       }
-    });
+    }
   }
 
   return (

@@ -1,32 +1,23 @@
 import React from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { clearUserToken } from '../../reducers/application.js';
+import { useSelector } from 'react-redux';
 import { ActivityIndicator, FlatList } from 'react-native';
-import { Text, Layout, Button, TopNavigation, Divider } from '@ui-kitten/components';
+import { Text, Layout, TopNavigation, Divider } from '@ui-kitten/components';
+import { LogoutAction } from '../../Components/Logout/logout-action.component';
 
 export const SearchPartyScreen = () => {
+  const userSession = useSelector(state => state.userSession.value);
+
   const [isLoading, setLoading] = React.useState(true);
   const [partyPlaces, setPartyPlaces] = React.useState([]);
 
-  const userToken = useSelector(state => state.userToken.value);
-
-
-  const logoutUser = async (event) => {
-    event.preventDefault();
-
-    // TODO: Invalidate user token
-    const dispatch = useDispatch();
-    dispatch(clearUserToken());
-  }
-
   const getPartyPlaces = async () => {
     const headers = new Headers({
-      'Authorization': `Token ${userToken}`,
+      'Authorization': `Token ${userSession.token}`,
       'Content-Type': 'application/json'
     });
 
     try {
-      const response = await fetch('http://localhost:3000/partyers', { method: 'GET', headers });
+      const response = await fetch('http://localhost:3000/party-places', { method: 'GET', headers });
       if (!response.ok) throw response;
 
       setPartyPlaces(await response.json());
@@ -56,9 +47,7 @@ export const SearchPartyScreen = () => {
         />)
       }
 
-      <Button onPress={logoutUser}>
-        Sair
-      </Button>
+      <LogoutAction />
     </Layout>
   )
 }

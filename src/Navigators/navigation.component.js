@@ -12,9 +12,10 @@ import { useSelector } from 'react-redux';
 const { Navigator, Screen } = createStackNavigator();
 
 const LoginNavigator = () => {
-  const userToken = useSelector(state => state.userToken.value)
+  const userSession = useSelector(state => state.userSession.value)
+
   return (
-    userToken ? (
+    (userSession && userSession.token) ? (
       <Navigator screenOptions={{headerShown: false}}>
         <Screen name='SearchParty' component={SearchPartyScreen} />
       </Navigator>

@@ -6,7 +6,7 @@ import { Button, Layout, Input, Text } from '@ui-kitten/components';
 import { disableButton } from '../../util/utils.js';
 
 import { useDispatch } from 'react-redux';
-import { setUserToken } from '../../reducers/application.js';
+import { setUserSession } from '../../reducers/application.js';
 
 export const LoginScreen = ({ navigation }) => {
   const dispatch = useDispatch();
@@ -22,7 +22,8 @@ export const LoginScreen = ({ navigation }) => {
     event.preventDefault();
 
     const headers = new Headers();
-    headers.set('Authorization', 'Basic ' + btoa(`${email}:${password}`));
+    const credentials = btoa(`${email}:${password}`);
+    headers.set('Authorization', 'Basic ' + credentials);
 
     try {
       const response = await fetch('http://localhost:3000/api-keys', { method: 'POST', headers });
@@ -32,9 +33,10 @@ export const LoginScreen = ({ navigation }) => {
         type: 'success',
         text1: 'Bem vindo ao Cola Aqui!',
       });
+
       const json = await response.json();
       if (!json.token) throw response;
-      dispatch(setUserToken(json));
+      dispatch(setUserSession(json));
     } catch(error) {
       if (error && error.status === 401) {
         Toast.show({

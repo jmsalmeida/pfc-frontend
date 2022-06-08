@@ -31,7 +31,8 @@ export const LoginScreen = ({ navigation }) => {
 
       Toast.show({
         type: 'success',
-        text1: 'Bem vindo ao Cola Aqui!',
+        visibilityTime: 1000,
+        text1: 'Bem vindo ao Cola Aqui!'
       });
 
       const json = await response.json();

@@ -31,5 +31,12 @@ export const LogoutAction = () => {
     }
   }
 
-  return <Button onPress={logoutAction}>Sair</Button>
+  return (
+    <Button
+    size='medium'
+    appearance='ghost'
+    onPress={logoutAction}>
+      Sair
+    </Button>
+  )
 }

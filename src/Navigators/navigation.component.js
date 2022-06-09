@@ -4,7 +4,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { LoginScreen } from '../Components/Login/login.component';
 import { SearchPartyScreen } from '../Components/SearchParty/search-party.component';
 import { RegisterPartyerScreen } from '../Components/Register/RegisterPartyer/register-partyer.component';
-import { RegisterPartyPlaceScreen } from '../Components/Register/RegisterPartyer/register-party-place.component';
+import { RegisterPartyPlaceScreen } from '../Components/Register/RegisterPartyPlace/register-party-place.component';
 import { SelectUserTypeScreen } from '../Components/Register/Select-user-type/select-user-type.component';
 
 import { useSelector } from 'react-redux';

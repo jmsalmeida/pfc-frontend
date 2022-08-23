@@ -10,7 +10,7 @@ import {
 } from '@ui-kitten/components'
 import { LogoutAction } from '../../components/logout-action'
 import { PartyPlaceCard } from '../../components/party-place-card'
-import { NotFound } from '../../components/not-found.component'
+import { NotFound } from '../../components/item-not-found'
 
 export const SearchPartyScreen = () => {
   const userSession = useSelector((state) => state.userSession.value)

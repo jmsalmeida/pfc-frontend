@@ -4,7 +4,7 @@ import Toast from 'react-native-toast-message'
 
 import { api } from '../../services/api'
 import { disableButton } from '../../util/utils'
-import { StyleSheet, View, ScrollView } from 'react-native'
+import { View, ScrollView } from 'react-native'
 import {
   Icon,
   Text,
@@ -18,6 +18,7 @@ import {
   TopNavigation,
   TopNavigationAction,
 } from '@ui-kitten/components'
+import { styles } from './styles'
 
 export const RegisterPartyerScreen = ({ navigation }) => {
   const navigateBack = () => {
@@ -249,21 +250,3 @@ export const RegisterPartyerScreen = ({ navigation }) => {
     </Layout>
   )
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    paddingHorizontal: 20,
-  },
-
-  formContainer: { paddingVertical: 20 },
-  inputContainer: { paddingVertical: 5 },
-
-  captionText: {
-    fontSize: 12,
-    paddingTop: 5,
-    fontWeight: '400',
-  },
-
-  submitButton: { paddingVertical: 10 },
-})

@@ -1,5 +1,5 @@
 import React from 'react'
-import { StyleSheet, Linking, View, ScrollView } from 'react-native'
+import { Linking, View, ScrollView } from 'react-native'
 import {
   Divider,
   Layout,
@@ -15,6 +15,7 @@ import { disableButton } from '../../util/utils'
 import { api } from '../../services/api'
 import Toast from 'react-native-toast-message'
 import { cnpj } from 'cpf-cnpj-validator'
+import { styles } from './styles'
 
 export const RegisterPartyPlaceScreen = ({ navigation }) => {
   const navigateBack = () => {
@@ -334,25 +335,3 @@ export const RegisterPartyPlaceScreen = ({ navigation }) => {
     </Layout>
   )
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    paddingHorizontal: 20,
-  },
-
-  formContainer: { paddingVertical: 20 },
-  inputContainer: { paddingVertical: 5 },
-  inputContainerRow: { paddingVertical: 5, flexDirection: 'row', flex: 1 },
-  hyperlinkStyle: { fontStyle: 'italic', color: 'blue' },
-  radioTerms: { flexDirection: 'row', flex: 1, marginTop: 20 },
-  submitButton: { paddingVertical: 10 },
-
-  captionText: {
-    fontSize: 12,
-    paddingTop: 5,
-    fontWeight: '400',
-  },
-
-  submitButton: { paddingVertical: 10 },
-})

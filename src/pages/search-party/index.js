@@ -11,6 +11,7 @@ import {
 import { LogoutAction } from '../../components/logout-action'
 import { PartyPlaceCard } from '../../components/party-place-card'
 import { NotFound } from '../../components/item-not-found'
+import { ENV } from '../../config/envinroments'
 
 export const SearchPartyScreen = () => {
   const userSession = useSelector((state) => state.userSession.value)
@@ -23,7 +24,7 @@ export const SearchPartyScreen = () => {
     setLoading(true)
     const queryParam = new URLSearchParams({ partyPlaceName })
 
-    const api = 'http://10.0.2.2:3000/party-places'
+    const api = `${ENV.BASE_URL}/party-places`
     const url = partyPlaceName ? `${api}?${queryParam}` : api
 
     const headers = new Headers({

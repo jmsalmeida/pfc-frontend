@@ -2,6 +2,7 @@ import React from 'react'
 import Toast from 'react-native-toast-message'
 
 import { Button } from '@ui-kitten/components'
+import { ENV } from '../../config/envinroments'
 import { useDispatch, useSelector } from 'react-redux'
 import { clearUserSession } from '../../reducers/application.js'
 
@@ -17,8 +18,11 @@ export const LogoutAction = () => {
       })
 
       const response = await fetch(
-        `http://10.0.2.2:3000/api-keys/${userSession.id}`,
-        { method: 'DELETE', headers }
+        `${ENV.BASE_URL}/api-keys/${userSession.id}`,
+        {
+          method: 'DELETE',
+          headers,
+        }
       )
       if (!response.ok) throw response
 

@@ -5,6 +5,7 @@ import { styles } from './styles'
 import { Image } from 'react-native'
 import { Button, Layout, Input, Text } from '@ui-kitten/components'
 import { disableButton } from '../../util/utils.js'
+import { ENV } from '../../config/envinroments'
 
 import { useDispatch } from 'react-redux'
 import { setUserSession } from '../../reducers/application.js'
@@ -27,7 +28,7 @@ export const LoginScreen = ({ navigation }) => {
     headers.set('Authorization', 'Basic ' + credentials)
 
     try {
-      const response = await fetch('http://10.0.2.2:3000/api-keys', {
+      const response = await fetch(`${ENV.BASE_URL}/api-keys`, {
         method: 'POST',
         headers,
       })

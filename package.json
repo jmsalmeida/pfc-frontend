@@ -19,6 +19,7 @@
     "@reduxjs/toolkit": "^1.8.2",
     "@ui-kitten/components": "^5.1.2",
     "@ui-kitten/eva-icons": "^5.1.2",
+    "base-64": "^1.0.0",
     "cpf-cnpj-validator": "^1.0.3",
     "eslint-config-airbnb": "^19.0.4",
     "eslint-config-prettier": "^8.5.0",

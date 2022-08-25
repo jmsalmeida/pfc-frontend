@@ -24,7 +24,8 @@ export const LoginScreen = ({ navigation }) => {
     event.preventDefault()
 
     const headers = new Headers()
-    const credentials = btoa(`${email}:${password}`)
+    const base64 = require('base-64')
+    const credentials = base64.encode(`${email}:${password}`)
     headers.set('Authorization', 'Basic ' + credentials)
 
     try {

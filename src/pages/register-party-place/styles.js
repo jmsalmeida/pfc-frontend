@@ -1,4 +1,4 @@
-import { StyleSheet } from 'react-native'
+import { StyleSheet } from 'react-native';
 
 export const styles = StyleSheet.create({
   container: {
@@ -18,6 +18,4 @@ export const styles = StyleSheet.create({
     paddingTop: 5,
     fontWeight: '400',
   },
-
-  submitButton: { paddingVertical: 10 },
-})
+});

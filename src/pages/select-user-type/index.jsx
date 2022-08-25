@@ -1,38 +1,33 @@
-import React from 'react'
 import {
+  Card,
   Divider,
-  Layout,
   Icon,
+  Layout,
+  Text,
   TopNavigation,
   TopNavigationAction,
-  Card,
-  Text,
-} from '@ui-kitten/components'
-import { styles } from './styles'
+} from '@ui-kitten/components';
+import React from 'react';
+import { styles } from './styles';
 
-export const SelectUserTypeScreen = ({ navigation }) => {
+export function SelectUserTypeScreen({ navigation }) {
   const navigateRegister = () => {
-    navigation.navigate('RegisterPartyer')
-  }
+    navigation.navigate('RegisterPartyer');
+  };
 
   const navigateRegisterPlace = () => {
-    navigation.navigate('RegisterPartyPlace')
-  }
+    navigation.navigate('RegisterPartyPlace');
+  };
 
   const navigateBack = () => {
-    navigation.goBack()
+    navigation.goBack();
+  };
+
+  const generateIcon = (iconName, style = {}) => <Icon style={style} name={iconName} />;
+
+  function BackAction() {
+    return <TopNavigationAction icon={generateIcon('arrow-back')} onPress={navigateBack} />;
   }
-
-  const generateIcon = (iconName, style = {}) => (
-    <Icon style={style} name={iconName} />
-  )
-
-  const BackAction = () => (
-    <TopNavigationAction
-      icon={generateIcon('arrow-back')}
-      onPress={navigateBack}
-    />
-  )
 
   return (
     <Layout style={{ flex: 1 }}>
@@ -59,5 +54,5 @@ export const SelectUserTypeScreen = ({ navigation }) => {
         </Card>
       </Layout>
     </Layout>
-  )
+  );
 }

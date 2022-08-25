@@ -1,70 +1,68 @@
-import React from 'react'
-import Toast from 'react-native-toast-message'
+import React from 'react';
+import Toast from 'react-native-toast-message';
 
-import { styles } from './styles'
-import { Image } from 'react-native'
-import { Button, Layout, Input, Text } from '@ui-kitten/components'
-import { disableButton } from '../../util/utils.js'
-import { ENV } from '../../config/envinroments'
+import { Button, Input, Layout, Text } from '@ui-kitten/components';
+import { Image } from 'react-native';
+import { useDispatch } from 'react-redux';
+import { ENV } from '../../config/envinroments';
+import { disableButton } from '../../util/utils.js';
+import { styles } from './styles';
 
-import { useDispatch } from 'react-redux'
-import { setUserSession } from '../../reducers/application.js'
+import { setUserSession } from '../../reducers/application.js';
 
-export const LoginScreen = ({ navigation }) => {
-  const dispatch = useDispatch()
+export function LoginScreen({ navigation }) {
+  const dispatch = useDispatch();
 
   const navigateRegister = () => {
-    navigation.navigate('SelectUserType')
-  }
+    navigation.navigate('SelectUserType');
+  };
 
-  const [email, setEmail] = React.useState('')
-  const [password, setPassword] = React.useState('')
+  const [email, setEmail] = React.useState('');
+  const [password, setPassword] = React.useState('');
 
   const authenticateUser = async (event) => {
-    event.preventDefault()
+    event.preventDefault();
 
-    const headers = new Headers()
-    const base64 = require('base-64')
-    const credentials = base64.encode(`${email}:${password}`)
-    headers.set('Authorization', 'Basic ' + credentials)
+    // eslint-disable-next-line no-undef
+    const headers = new Headers();
+    const base64 = require('base-64');
+    const credentials = base64.encode(`${email}:${password}`);
+    headers.set('Authorization', `Basic ${credentials}`);
 
     try {
       const response = await fetch(`${ENV.BASE_URL}/api-keys`, {
         method: 'POST',
         headers,
-      })
-      if (!response.ok) throw response
+      });
+      if (!response.ok) throw response;
 
       Toast.show({
         type: 'success',
         visibilityTime: 1000,
         text1: 'Bem vindo ao Cola Aqui!',
-      })
+      });
 
-      const json = await response.json()
-      if (!json.token) throw response
-      dispatch(setUserSession(json))
+      const json = await response.json();
+      if (!json.token) throw response;
+      dispatch(setUserSession(json));
     } catch (error) {
       if (error && error.status === 401) {
         Toast.show({
           type: 'error',
           text1: 'Usuário e/ou senha inválidos',
           onHide: () => setPassword(''),
-        })
+        });
       } else {
-        console.error(error)
+        console.error(error);
       }
     }
-  }
+  };
 
   return (
     <Layout style={{ flex: 1 }}>
       <Layout style={styles.container}>
         <Layout style={styles.logoContainer}>
-          <Image
-            style={styles.logoImage}
-            source={require('../../assets/logo.png')}
-          />
+          <Image style={styles.logoImage} source={require('../../assets/logo.png')} />
         </Layout>
 
         <Input
@@ -81,28 +79,26 @@ export const LoginScreen = ({ navigation }) => {
           placeholder="Digite a senha cadastrada"
           value={password}
           onChangeText={(nextValue) => setPassword(nextValue)}
-          secureTextEntry={true}
+          secureTextEntry
         />
 
         <Layout>
           <Button
             style={styles.actionButton}
             disabled={disableButton([email, password])}
-            onPress={authenticateUser}>
+            onPress={authenticateUser}
+          >
             Acessar
           </Button>
 
           <Text style={styles.registerLabel}>
             Ainda não é cadastrado?{' '}
-            <Text
-              style={styles.registerLink}
-              category="s1"
-              onPress={navigateRegister}>
+            <Text style={styles.registerLink} category="s1" onPress={navigateRegister}>
               Criar nova conta
             </Text>
           </Text>
         </Layout>
       </Layout>
     </Layout>
-  )
+  );
 }

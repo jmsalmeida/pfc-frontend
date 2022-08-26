@@ -1,10 +1,8 @@
-import React from 'react'
-import moment from 'moment'
-import Toast from 'react-native-toast-message'
+import React from 'react';
+import moment from 'moment';
+import Toast from 'react-native-toast-message';
 
-import { api } from '../../services/api'
-import { disableButton } from '../../util/utils'
-import { View, ScrollView } from 'react-native'
+import { View, ScrollView } from 'react-native';
 import {
   Icon,
   Text,
@@ -17,40 +15,39 @@ import {
   Datepicker,
   TopNavigation,
   TopNavigationAction,
-} from '@ui-kitten/components'
-import { styles } from './styles'
+} from '@ui-kitten/components';
+import { api } from '../../services/api';
+import { disableButton } from '../../util/utils';
+import { styles } from './styles';
 
-export const RegisterPartyerScreen = ({ navigation }) => {
+export function RegisterPartyerScreen({ navigation }) {
   const navigateBack = () => {
-    navigation.goBack()
+    navigation.goBack();
+  };
+
+  const generateIcon = (iconName) => <Icon name={iconName} />;
+
+  function BackAction() {
+    return <TopNavigationAction icon={generateIcon('arrow-back')} onPress={navigateBack} />;
   }
 
-  const generateIcon = (iconName) => <Icon name={iconName} />
-
-  const BackAction = () => (
-    <TopNavigationAction
-      icon={generateIcon('arrow-back')}
-      onPress={navigateBack}
-    />
-  )
-
   // TODO: Improve state declarations
-  const [name, setName] = React.useState('')
-  const [lastName, setLastName] = React.useState('')
-  const [birthDate, setBirthDate] = React.useState('')
-  const [email, setEmail] = React.useState('')
-  const [emailConfirmation, setEmailConfirmation] = React.useState('')
-  const [password, setPassword] = React.useState('')
-  const [passwordConfirmation, setPasswordConfirmation] = React.useState('')
+  const [name, setName] = React.useState('');
+  const [lastName, setLastName] = React.useState('');
+  const [birthDate, setBirthDate] = React.useState('');
+  const [email, setEmail] = React.useState('');
+  const [emailConfirmation, setEmailConfirmation] = React.useState('');
+  const [password, setPassword] = React.useState('');
+  const [passwordConfirmation, setPasswordConfirmation] = React.useState('');
 
   // Gender option
-  const genders = ['Feminino', 'Masculino', 'Outro']
-  const [selectedIndex, setSelectedIndex] = React.useState()
+  const genders = ['Feminino', 'Masculino', 'Outro'];
+  const [selectedIndex, setSelectedIndex] = React.useState();
 
-  const renderOption = (title) => <SelectItem key={title} title={title} />
+  const renderOption = (title) => <SelectItem key={title} title={title} />;
 
   const registerPartyer = (event) => {
-    event.preventDefault()
+    event.preventDefault();
 
     const partyer = {
       name: `${name} ${lastName}`,
@@ -60,7 +57,7 @@ export const RegisterPartyerScreen = ({ navigation }) => {
       emailConfirmation,
       password,
       passwordConfirmation,
-    }
+    };
 
     api
       .post('/partyers', { body: JSON.stringify(partyer) })
@@ -71,9 +68,9 @@ export const RegisterPartyerScreen = ({ navigation }) => {
             text1: 'Cadastrado com sucesso',
             text2: `Bem vindo ${partyer.name}, por favor faça o login.`,
             onShow: () => navigation.navigate('Login'),
-          })
+          });
         } else {
-          throw new Error(response.body)
+          throw new Error(response.body);
         }
       })
       .catch((error) => {
@@ -81,45 +78,40 @@ export const RegisterPartyerScreen = ({ navigation }) => {
           type: 'error',
           text1: 'Algo deu errado com a tentativa de cadastro!',
           text2: `${error}`,
-        })
-      })
-  }
+        });
+      });
+  };
 
   const invalidConfirmation = (value, valueToCompare) => {
-    if (!value || !valueToCompare) return false
+    if (!value || !valueToCompare) return false;
 
-    return value !== valueToCompare
-  }
+    return value !== valueToCompare;
+  };
 
   const isUnderAge = (userBirthDate) => {
-    const today = moment()
-    userBirthDate = moment(userBirthDate)
+    const today = moment();
+    userBirthDate = moment(userBirthDate);
 
-    return today.diff(userBirthDate, 'years') < 18
-  }
+    return today.diff(userBirthDate, 'years') < 18;
+  };
 
-  const renderCaption = (shouldRender, message) => {
-    return shouldRender ? (
+  const renderCaption = (shouldRender, message) =>
+    shouldRender ? (
       <View>
         <Text style={styles.captionText} status="danger">
           {message}
         </Text>
       </View>
-    ) : null
-  }
+    ) : null;
 
   const displayOption = (list, option) => {
-    if (!option) return
-    return list[option.row]
-  }
+    if (!option) return;
+    return list[option.row];
+  };
 
   return (
     <Layout style={{ flex: 1 }}>
-      <TopNavigation
-        title="Cadastro de usuário"
-        alignment="center"
-        accessoryLeft={BackAction}
-      />
+      <TopNavigation title="Cadastro de usuário" alignment="center" accessoryLeft={BackAction} />
       <Divider />
 
       <Layout style={styles.container}>
@@ -130,7 +122,7 @@ export const RegisterPartyerScreen = ({ navigation }) => {
             <Input
               style={styles.inputContainer}
               label="Nome"
-              required={true}
+              required
               placeholder="Insira o seu nome"
               value={name}
               onChangeText={(nextValue) => setName(nextValue)}
@@ -139,7 +131,7 @@ export const RegisterPartyerScreen = ({ navigation }) => {
             <Input
               style={styles.inputContainer}
               label="Sobrenome"
-              required={true}
+              required
               placeholder="Insira o seu sobrenome"
               value={lastName}
               onChangeText={(nextValue) => setLastName(nextValue)}
@@ -154,7 +146,7 @@ export const RegisterPartyerScreen = ({ navigation }) => {
               onSelect={(nextDate) => setBirthDate(nextDate)}
               caption={renderCaption(
                 isUnderAge(birthDate),
-                'Não é permitido o cadastro de menores de idade'
+                'Não é permitido o cadastro de menores de idade',
               )}
             />
 
@@ -164,7 +156,8 @@ export const RegisterPartyerScreen = ({ navigation }) => {
               placeholder="Selecione o sexo"
               value={displayOption(genders, selectedIndex)}
               selectedIndex={selectedIndex}
-              onSelect={(index) => setSelectedIndex(index)}>
+              onSelect={(index) => setSelectedIndex(index)}
+            >
               {genders.map(renderOption)}
             </Select>
           </Layout>
@@ -178,11 +171,8 @@ export const RegisterPartyerScreen = ({ navigation }) => {
               placeholder="Digite seu melhor email"
               value={email}
               caption={renderCaption(
-                invalidConfirmation(
-                  email.toLowerCase(),
-                  emailConfirmation.toLowerCase()
-                ),
-                'Email deve ser igual a confirmação'
+                invalidConfirmation(email.toLowerCase(), emailConfirmation.toLowerCase()),
+                'Email deve ser igual a confirmação',
               )}
               onChangeText={(nextValue) => setEmail(nextValue)}
             />
@@ -193,11 +183,8 @@ export const RegisterPartyerScreen = ({ navigation }) => {
               placeholder="Digite a confirmação de email"
               value={emailConfirmation}
               caption={renderCaption(
-                invalidConfirmation(
-                  email.toLowerCase(),
-                  emailConfirmation.toLowerCase()
-                ),
-                'Email deve ser igual a confirmação'
+                invalidConfirmation(email.toLowerCase(), emailConfirmation.toLowerCase()),
+                'Email deve ser igual a confirmação',
               )}
               onChangeText={(nextValue) => setEmailConfirmation(nextValue)}
             />
@@ -207,10 +194,10 @@ export const RegisterPartyerScreen = ({ navigation }) => {
               label="Senha"
               placeholder="Digite a sua senha"
               value={password}
-              secureTextEntry={true}
+              secureTextEntry
               caption={renderCaption(
                 invalidConfirmation(password, passwordConfirmation),
-                'Senha deve ser igual a confirmação'
+                'Senha deve ser igual a confirmação',
               )}
               onChangeText={(nextValue) => setPassword(nextValue)}
             />
@@ -220,10 +207,10 @@ export const RegisterPartyerScreen = ({ navigation }) => {
               label="Confirmar Senha"
               placeholder="Digite a confirmação da senha"
               value={passwordConfirmation}
-              secureTextEntry={true}
+              secureTextEntry
               caption={renderCaption(
                 invalidConfirmation(password, passwordConfirmation),
-                'Senha deve ser igual a confirmação'
+                'Senha deve ser igual a confirmação',
               )}
               onChangeText={(nextValue) => setPasswordConfirmation(nextValue)}
             />
@@ -242,11 +229,12 @@ export const RegisterPartyerScreen = ({ navigation }) => {
               password === passwordConfirmation,
               email.toLowerCase() == emailConfirmation.toLowerCase(),
             ])}
-            onPress={registerPartyer}>
+            onPress={registerPartyer}
+          >
             cadastrar usuário
           </Button>
         </Layout>
       </Layout>
     </Layout>
-  )
+  );
 }

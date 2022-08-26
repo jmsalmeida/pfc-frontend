@@ -1,8 +1,8 @@
-import React from 'react'
-import { styles } from './styles'
-import { Layout, Text } from '@ui-kitten/components'
+import { Layout, Text } from '@ui-kitten/components';
+import React from 'react';
+import { styles } from './styles';
 
-export const NotFound = () => {
+export function NotFound() {
   return (
     <Layout style={styles.container}>
       <Text category="h2" style={styles.centerText}>
@@ -12,5 +12,5 @@ export const NotFound = () => {
         Este estabelecimento não está cadastrado em nossa plataforma
       </Text>
     </Layout>
-  )
+  );
 }

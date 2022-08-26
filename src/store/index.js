@@ -3,6 +3,6 @@ import userReducer from '../reducers/application';
 
 export default configureStore({
   reducer: {
-    userSession: userReducer
-  }
+    userSession: userReducer,
+  },
 });

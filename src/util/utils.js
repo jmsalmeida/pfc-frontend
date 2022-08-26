@@ -1,5 +1,3 @@
-const disableButton = (props) => {
-  return props.some(prop => !prop);
-}
+const disableButton = (props) => props.some((prop) => !prop);
 
-export { disableButton }
+export { disableButton };

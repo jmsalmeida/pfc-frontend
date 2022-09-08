@@ -1,21 +1,21 @@
-import React from 'react';
 import moment from 'moment';
+import React from 'react';
 import Toast from 'react-native-toast-message';
 
-import { View, ScrollView } from 'react-native';
 import {
+  Button,
+  Datepicker,
+  Divider,
   Icon,
-  Text,
   Input,
   Layout,
-  Button,
   Select,
-  Divider,
   SelectItem,
-  Datepicker,
+  Text,
   TopNavigation,
-  TopNavigationAction,
+  TopNavigationAction
 } from '@ui-kitten/components';
+import { ScrollView, View } from 'react-native';
 import { api } from '../../services/api';
 import { disableButton } from '../../util/utils';
 import { styles } from './styles';
@@ -31,7 +31,6 @@ export function RegisterPartyerScreen({ navigation }) {
     return <TopNavigationAction icon={generateIcon('arrow-back')} onPress={navigateBack} />;
   }
 
-  // TODO: Improve state declarations
   const [name, setName] = React.useState('');
   const [lastName, setLastName] = React.useState('');
   const [birthDate, setBirthDate] = React.useState('');
@@ -40,46 +39,42 @@ export function RegisterPartyerScreen({ navigation }) {
   const [password, setPassword] = React.useState('');
   const [passwordConfirmation, setPasswordConfirmation] = React.useState('');
 
-  // Gender option
   const genders = ['Feminino', 'Masculino', 'Outro'];
   const [selectedIndex, setSelectedIndex] = React.useState();
 
   const renderOption = (title) => <SelectItem key={title} title={title} />;
 
-  const registerPartyer = (event) => {
+  const registerPartyer = async (event) => {
     event.preventDefault();
 
-    const partyer = {
-      name: `${name} ${lastName}`,
-      gender: genders[selectedIndex.row],
-      birthDate,
-      email,
-      emailConfirmation,
-      password,
-      passwordConfirmation,
+    const newUser = {
+      user: { email, password },
+      partyer: {
+        name: `${name} ${lastName}`,
+        gender: genders[selectedIndex.row],
+        birthDate,
+      },
     };
 
-    api
-      .post('/partyers', { body: JSON.stringify(partyer) })
-      .then((response) => {
-        if (response.ok) {
-          Toast.show({
-            type: 'success',
-            text1: 'Cadastrado com sucesso',
-            text2: `Bem vindo ${partyer.name}, por favor faça o login.`,
-            onShow: () => navigation.navigate('Login'),
-          });
-        } else {
-          throw new Error(response.body);
-        }
-      })
-      .catch((error) => {
-        Toast.show({
-          type: 'error',
-          text1: 'Algo deu errado com a tentativa de cadastro!',
-          text2: `${error}`,
-        });
+    try {
+      const response = await api.post('/auth/signup/partyer', { body: JSON.stringify(newUser) });
+      if (!response.ok) throw response;
+
+      const { name } = newUser.partyer;
+      Toast.show({
+        type: 'success',
+        text1: 'Cadastrado com sucesso',
+        text2: `Bem vindo ${name}, por favor faça o login.`,
+        onShow: () => navigation.navigate('Login'),
       });
+    } catch (error) {
+      const errorMessage = error.body.errors[0];
+      Toast.show({
+        type: 'error',
+        text1: 'Algo deu errado com o cadastro!',
+        text2: `${errorMessage}`,
+      });
+    }
   };
 
   const invalidConfirmation = (value, valueToCompare) => {

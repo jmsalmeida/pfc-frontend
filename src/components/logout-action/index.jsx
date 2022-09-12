@@ -2,29 +2,20 @@ import React from 'react';
 import Toast from 'react-native-toast-message';
 
 import { Button } from '@ui-kitten/components';
-import { useDispatch, useSelector } from 'react-redux';
-import { ENV } from '../../config/envinroments';
-import { clearUserSession } from '../../reducers/application';
+import { useDispatch } from 'react-redux';
+import { clearCurrentUser, clearUserSession } from '../../reducers/application';
+import { api } from '../../services/api';
 
 export function LogoutAction() {
   const dispatch = useDispatch();
-  const userSession = useSelector((state) => state.userSession.value);
 
   const logoutAction = async () => {
     try {
-      // eslint-disable-next-line no-undef
-      const headers = new Headers({
-        Authorization: `Token ${userSession.token}`,
-        'Content-Type': 'application/json',
-      });
-
-      const response = await fetch(`${ENV.BASE_URL}/api-keys/${userSession.id}`, {
-        method: 'DELETE',
-        headers,
-      });
+      const response = await api.del('/auth/signout');
       if (!response.ok) throw response;
 
       dispatch(clearUserSession());
+      dispatch(clearCurrentUser());
 
       Toast.show({
         type: 'info',
@@ -32,8 +23,11 @@ export function LogoutAction() {
         text2: 'Obrigado por usar o nosso app.',
       });
     } catch (error) {
-      // eslint-disable-next-line no-console
-      console.error(error);
+      const errorMessage = error.body.errors[0];
+      Toast.show({
+        type: 'error',
+        text1: errorMessage,
+      });
     }
   };
 

@@ -1,20 +1,20 @@
-import React from 'react';
-import { Linking, View, ScrollView } from 'react-native';
 import {
-  Divider,
-  Layout,
-  Icon,
-  TopNavigation,
-  TopNavigationAction,
-  Text,
-  Input,
-  Radio,
   Button,
+  Divider,
+  Icon,
+  Input,
+  Layout,
+  Radio,
+  Text,
+  TopNavigation,
+  TopNavigationAction
 } from '@ui-kitten/components';
-import Toast from 'react-native-toast-message';
 import { cnpj } from 'cpf-cnpj-validator';
-import { disableButton } from '../../util/utils';
+import React from 'react';
+import { Linking, ScrollView, View } from 'react-native';
+import Toast from 'react-native-toast-message';
 import { api } from '../../services/api';
+import { disableButton } from '../../util/utils';
 import { styles } from './styles';
 
 export function RegisterPartyPlaceScreen({ navigation }) {
@@ -28,46 +28,49 @@ export function RegisterPartyPlaceScreen({ navigation }) {
     return <TopNavigationAction icon={generateIcon('arrow-back')} onPress={navigateBack} />;
   }
 
-  const registerPartyPlace = (event) => {
+  const registerPartyPlace = async (event) => {
     event.preventDefault();
 
-    const partyPlace = {
-      cnpj: cnpjPartyPlace,
-      name,
-      postal_code,
-      street,
-      number,
-      district,
-      city,
-      main_contact,
-      cellphone,
-      email,
-      emailConfirmation,
-      password,
-      passwordConfirmation,
+    const newUser = {
+      user: { email, password },
+      partyPlace: {
+        cnpj: partyPlaceCnpj,
+        name,
+        mainContact,
+        phone,
+        cellphone,
+      },
+      address: {
+        postalCode,
+        street,
+        placeNumber,
+        district,
+        city,
+      },
     };
 
-    api
-      .post('/party-places', { body: JSON.stringify(partyPlace) })
-      .then((response) => {
-        if (response.ok) {
-          Toast.show({
-            type: 'success',
-            text1: 'Cadastrado com sucesso',
-            text2: `Bem vindo ${partyPlace.name}, por favor faça o login.`,
-            onShow: () => navigation.navigate('Login'),
-          });
-        } else {
-          throw new Error(response.body);
-        }
-      })
-      .catch((error) => {
-        Toast.show({
-          type: 'error',
-          text1: 'Algo deu errado com a tentativa de cadastro!',
-          text2: `${error}`,
-        });
+    try {
+      const response = await api.post('/auth/signup/party-place', {
+        body: JSON.stringify(newUser),
       });
+      if (!response.ok) throw response;
+
+      const { name } = newUser.partyPlace;
+      Toast.show({
+        type: 'success',
+        text1: 'Cadastrado com sucesso',
+        text2: `Bem vindo ${name}, por favor faça o login.`,
+        onShow: () => navigation.navigate('Login'),
+      });
+    } catch (error) {
+      console.log(error);
+      const errorMessage = error.body.errors[0];
+      Toast.show({
+        type: 'error',
+        text1: 'Algo deu errado com o cadastro!',
+        text2: errorMessage,
+      });
+    }
   };
 
   const invalidConfirmation = (value, valueToCompare) => {
@@ -85,20 +88,20 @@ export function RegisterPartyPlaceScreen({ navigation }) {
       </View>
     ) : null;
 
-  const [name, setname] = React.useState('');
-  const [cnpjPartyPlace, setcnpjPartyPlace] = React.useState('');
-  const [postal_code, setpostal_code] = React.useState('');
-  const [street, setstreet] = React.useState('');
-  const [number, setnumber] = React.useState('');
-  const [district, setDistrictPlace] = React.useState('');
-  const [city, setCityPlace] = React.useState('');
-  const [main_contact, setmain_contact] = React.useState('');
-  const [phone, setPhonePlace] = React.useState('');
-  const [cellphone, setcellphonePlace] = React.useState('');
-  const [email, setEmailPlace] = React.useState('');
-  const [emailConfirmation, setEmailConfirmationPlace] = React.useState('');
-  const [password, setPasswordPlace] = React.useState('');
-  const [passwordConfirmation, setPasswordConfirmationPlace] = React.useState('');
+  const [name, setName] = React.useState('');
+  const [partyPlaceCnpj, setPartyPlaceCnpj] = React.useState('');
+  const [postalCode, setPostalCode] = React.useState('');
+  const [street, setStreet] = React.useState('');
+  const [placeNumber, setPlaceNumber] = React.useState('');
+  const [district, setDistrict] = React.useState('');
+  const [city, setCity] = React.useState('');
+  const [mainContact, setMainContact] = React.useState('');
+  const [phone, setPhone] = React.useState('');
+  const [cellphone, setCellphone] = React.useState('');
+  const [email, setEmail] = React.useState('');
+  const [emailConfirmation, setEmailConfirmation] = React.useState('');
+  const [password, setPassword] = React.useState('');
+  const [passwordConfirmation, setPasswordConfirmation] = React.useState('');
   const [checked, setChecked] = React.useState(false);
 
   return (
@@ -121,20 +124,20 @@ export function RegisterPartyPlaceScreen({ navigation }) {
               required
               placeholder="Insira o nome do seu estabelecimento"
               value={name}
-              onChangeText={(nextValue) => setname(nextValue)}
+              onChangeText={(nextValue) => setName(nextValue)}
             />
 
             <Input
               style={styles.inputContainer}
               label="CNPJ"
               caption={renderCaption(
-                cnpjPartyPlace ? !cnpj.isValid(cnpjPartyPlace) : false,
+                partyPlaceCnpj ? !cnpj.isValid(partyPlaceCnpj) : false,
                 'CNPJ inválido!',
               )}
               required
               placeholder="99.999.999/9999-99"
-              value={cnpjPartyPlace}
-              onChangeText={(nextValue) => setcnpjPartyPlace(nextValue)}
+              value={partyPlaceCnpj}
+              onChangeText={(nextValue) => setPartyPlaceCnpj(nextValue)}
             />
           </Layout>
 
@@ -146,8 +149,8 @@ export function RegisterPartyPlaceScreen({ navigation }) {
               label="CEP"
               required
               placeholder="99999-999"
-              value={postal_code}
-              onChangeText={(nextValue) => setpostal_code(nextValue)}
+              value={postalCode}
+              onChangeText={(nextValue) => setPostalCode(nextValue)}
             />
 
             <Input
@@ -156,7 +159,7 @@ export function RegisterPartyPlaceScreen({ navigation }) {
               required
               placeholder="Insira o Logradouro"
               value={street}
-              onChangeText={(nextValue) => setstreet(nextValue)}
+              onChangeText={(nextValue) => setStreet(nextValue)}
             />
 
             <Layout style={styles.inputContainerRow}>
@@ -165,8 +168,8 @@ export function RegisterPartyPlaceScreen({ navigation }) {
                 label="Número"
                 required
                 placeholder="Número"
-                value={number}
-                onChangeText={(nextValue) => setnumber(nextValue)}
+                value={placeNumber}
+                onChangeText={(nextValue) => setPlaceNumber(nextValue)}
               />
 
               <Input
@@ -175,7 +178,7 @@ export function RegisterPartyPlaceScreen({ navigation }) {
                 required
                 placeholder="Insira o bairro"
                 value={district}
-                onChangeText={(nextValue) => setDistrictPlace(nextValue)}
+                onChangeText={(nextValue) => setDistrict(nextValue)}
               />
             </Layout>
             <Input
@@ -184,7 +187,7 @@ export function RegisterPartyPlaceScreen({ navigation }) {
               required
               placeholder="Insira a cidade do seu estabelecimento"
               value={city}
-              onChangeText={(nextValue) => setCityPlace(nextValue)}
+              onChangeText={(nextValue) => setCity(nextValue)}
             />
           </Layout>
 
@@ -195,8 +198,8 @@ export function RegisterPartyPlaceScreen({ navigation }) {
               label="Nome completo do responsável"
               required
               placeholder="Insira o nome do responsável do estabelecimento"
-              value={main_contact}
-              onChangeText={(nextValue) => setmain_contact(nextValue)}
+              value={mainContact}
+              onChangeText={(nextValue) => setMainContact(nextValue)}
             />
 
             <Layout style={styles.inputContainerRow}>
@@ -205,7 +208,7 @@ export function RegisterPartyPlaceScreen({ navigation }) {
                 label="Telefone"
                 placeholder="9999-9999"
                 value={phone}
-                onChangeText={(nextValue) => setPhonePlace(nextValue)}
+                onChangeText={(nextValue) => setPhone(nextValue)}
               />
               <Input
                 style={{ flex: 2, marginLeft: 5 }}
@@ -213,7 +216,7 @@ export function RegisterPartyPlaceScreen({ navigation }) {
                 required
                 placeholder="(99) 99999-9999"
                 value={cellphone}
-                onChangeText={(nextValue) => setcellphonePlace(nextValue)}
+                onChangeText={(nextValue) => setCellphone(nextValue)}
               />
             </Layout>
           </Layout>
@@ -226,7 +229,7 @@ export function RegisterPartyPlaceScreen({ navigation }) {
               required
               placeholder="Digite seu melhor e-mail"
               value={email}
-              onChangeText={(nextValue) => setEmailPlace(nextValue)}
+              onChangeText={(nextValue) => setEmail(nextValue)}
               caption={renderCaption(
                 invalidConfirmation(email.toLowerCase(), emailConfirmation.toLowerCase()),
                 'Os e-emails devem ser iguais!',
@@ -239,7 +242,7 @@ export function RegisterPartyPlaceScreen({ navigation }) {
               required
               placeholder="Digite a confirmação de e-mail"
               value={emailConfirmation}
-              onChangeText={(nextValue) => setEmailConfirmationPlace(nextValue)}
+              onChangeText={(nextValue) => setEmailConfirmation(nextValue)}
               caption={renderCaption(
                 invalidConfirmation(email.toLowerCase(), emailConfirmation.toLowerCase()),
                 'Os e-mails devem ser iguais!',
@@ -253,7 +256,7 @@ export function RegisterPartyPlaceScreen({ navigation }) {
                 placeholder="Digite sua senha"
                 value={password}
                 secureTextEntry
-                onChangeText={(nextValue) => setPasswordPlace(nextValue)}
+                onChangeText={(nextValue) => setPassword(nextValue)}
                 caption={renderCaption(
                   invalidConfirmation(password, passwordConfirmation),
                   'As senhas devem ser iguais!',
@@ -267,7 +270,7 @@ export function RegisterPartyPlaceScreen({ navigation }) {
                 placeholder="Confirme sua senha"
                 secureTextEntry
                 value={passwordConfirmation}
-                onChangeText={(nextValue) => setPasswordConfirmationPlace(nextValue)}
+                onChangeText={(nextValue) => setPasswordConfirmation(nextValue)}
                 caption={renderCaption(
                   invalidConfirmation(password, passwordConfirmation),
                   'As senhas devem ser iguais!',
@@ -299,13 +302,13 @@ export function RegisterPartyPlaceScreen({ navigation }) {
           <Button
             disabled={disableButton([
               name,
-              cnpjPartyPlace,
-              postal_code,
+              partyPlaceCnpj,
+              postalCode,
               street,
-              number,
+              placeNumber,
               district,
               city,
-              main_contact,
+              mainContact,
               cellphone,
               email,
               emailConfirmation,
@@ -314,7 +317,7 @@ export function RegisterPartyPlaceScreen({ navigation }) {
               passwordConfirmation,
               password === passwordConfirmation,
               checked,
-              cnpj.isValid(cnpjPartyPlace),
+              cnpj.isValid(partyPlaceCnpj),
             ])}
             onPress={registerPartyPlace}
           >

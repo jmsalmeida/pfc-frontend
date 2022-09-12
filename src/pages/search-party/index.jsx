@@ -1,15 +1,12 @@
 import { Button, Icon, Input, Layout, TopNavigation } from '@ui-kitten/components';
 import React from 'react';
 import { ActivityIndicator, FlatList } from 'react-native';
-import { useSelector } from 'react-redux';
 import { NotFound } from '../../components/item-not-found';
 import { LogoutAction } from '../../components/logout-action';
 import { PartyPlaceCard } from '../../components/party-place-card';
-import { ENV } from '../../config/envinroments';
+import { api } from '../../services/api';
 
 export function SearchPartyScreen() {
-  const userSession = useSelector((state) => state.userSession.value);
-
   const [isLoading, setLoading] = React.useState(true);
   const [searchText, setSearchText] = React.useState('');
   const [partyPlaces, setPartyPlaces] = React.useState([]);
@@ -17,21 +14,13 @@ export function SearchPartyScreen() {
   const getPartyPlaces = async (partyPlaceName = null) => {
     setLoading(true);
     const queryParam = new URLSearchParams({ partyPlaceName });
-
-    const api = `${ENV.BASE_URL}/party-places`;
-    const url = partyPlaceName ? `${api}?${queryParam}` : api;
-
-    // eslint-disable-next-line no-undef
-    const headers = new Headers({
-      Authorization: `Token ${userSession.token}`,
-      'Content-Type': 'application/json',
-    });
+    const url = partyPlaceName ? `/party-places?${queryParam}` : '/party-places';
 
     try {
-      const response = await fetch(url, { method: 'GET', headers });
+      const response = await api.get(url);
       if (!response.ok) throw response;
 
-      setPartyPlaces(await response.json());
+      setPartyPlaces(await response.body);
     } catch (error) {
       if (error && error.status == 404) {
         setPartyPlaces([]);

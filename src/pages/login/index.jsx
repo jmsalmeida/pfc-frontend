@@ -4,11 +4,11 @@ import Toast from 'react-native-toast-message';
 import { Button, Input, Layout, Text } from '@ui-kitten/components';
 import { Image } from 'react-native';
 import { useDispatch } from 'react-redux';
-import { ENV } from '../../config/envinroments';
 import { disableButton } from '../../util/utils.js';
 import { styles } from './styles';
 
-import { setUserSession } from '../../reducers/application.js';
+import { setCurrentUser, setUserSession } from '../../reducers/application.js';
+import { api } from '../../services/api';
 
 export function LoginScreen({ navigation }) {
   const dispatch = useDispatch();
@@ -23,38 +23,29 @@ export function LoginScreen({ navigation }) {
   const authenticateUser = async (event) => {
     event.preventDefault();
 
-    // eslint-disable-next-line no-undef
-    const headers = new Headers();
-    const base64 = require('base-64');
-    const credentials = base64.encode(`${email}:${password}`);
-    headers.set('Authorization', `Basic ${credentials}`);
-
     try {
-      const response = await fetch(`${ENV.BASE_URL}/api-keys`, {
-        method: 'POST',
-        headers,
+      const response = await api.post('/auth/signin', {
+        body: JSON.stringify({ email, password }),
       });
+
       if (!response.ok) throw response;
+
+      await api.jwt(response.body.Authorization);
+      dispatch(setUserSession(response.body.Authorization));
+      dispatch(setCurrentUser(response.body.user));
 
       Toast.show({
         type: 'success',
         visibilityTime: 1000,
         text1: 'Bem vindo ao Cola Aqui!',
       });
-
-      const json = await response.json();
-      if (!json.token) throw response;
-      dispatch(setUserSession(json));
     } catch (error) {
-      if (error && error.status === 401) {
-        Toast.show({
-          type: 'error',
-          text1: 'Usuário e/ou senha inválidos',
-          onHide: () => setPassword(''),
-        });
-      } else {
-        console.error(error);
-      }
+      const errorMessage = error.body.errors[0];
+      Toast.show({
+        type: 'error',
+        text1: errorMessage,
+        onHide: () => setPassword(''),
+      });
     }
   };
 

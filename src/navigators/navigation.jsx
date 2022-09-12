@@ -1,22 +1,34 @@
-import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
+import React from 'react';
 import { useSelector } from 'react-redux';
 import { LoginScreen } from '../pages/login';
-import { SearchPartyScreen } from '../pages/search-party';
-import { RegisterPartyerScreen } from '../pages/register-partyer';
+import { PartyPlaceHomeScreen } from '../pages/party-place-home';
 import { RegisterPartyPlaceScreen } from '../pages/register-party-place';
+import { RegisterPartyerScreen } from '../pages/register-partyer';
+import { SearchPartyScreen } from '../pages/search-party';
 import { SelectUserTypeScreen } from '../pages/select-user-type';
 
 const { Navigator, Screen } = createStackNavigator();
 
 function LoginNavigator() {
-  const userSession = useSelector((state) => state.userSession.value);
+  const userToken = useSelector((state) => state.userSession.token);
+  const currentUser = useSelector((state) => state.userSession.currentUser);
 
-  return userSession && userSession.token ? (
-    <Navigator screenOptions={{ headerShown: false }}>
-      <Screen name="SearchParty" component={SearchPartyScreen} />
-    </Navigator>
+  const renderExpectedUserArea = () => {
+    return currentUser['user_type'] === 'party_place' ? (
+      <Navigator screenOptions={{ headerShown: false }}>
+        <Screen name="PartyPlaceHome" component={PartyPlaceHomeScreen} />
+      </Navigator>
+    ) : (
+      <Navigator screenOptions={{ headerShown: false }}>
+        <Screen name="SearchParty" component={SearchPartyScreen} />
+      </Navigator>
+    );
+  };
+
+  return currentUser && userToken ? (
+    renderExpectedUserArea()
   ) : (
     <Navigator screenOptions={{ headerShown: false }}>
       <Screen name="Login" component={LoginScreen} />

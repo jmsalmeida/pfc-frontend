@@ -1,20 +1,21 @@
-import React from 'react';
-import { Linking, View, ScrollView } from 'react-native';
 import {
-  Divider,
-  Layout,
-  Icon,
-  TopNavigation,
-  TopNavigationAction,
-  Text,
-  Input,
-  Radio,
   Button,
+  Divider,
+  Icon,
+  Input,
+  Layout,
+  Radio,
+  Text,
+  TopNavigation,
+  // eslint-disable-next-line prettier/prettier
+  TopNavigationAction
 } from '@ui-kitten/components';
+import React from 'react';
+import { Linking, ScrollView, View } from 'react-native';
+import { TextInputMask } from 'react-native-masked-text';
 import Toast from 'react-native-toast-message';
-import { cnpj } from 'cpf-cnpj-validator';
-import { disableButton } from '../../util/utils';
 import { api } from '../../services/api';
+import { disableButton } from '../../util/utils';
 import { styles } from './styles';
 
 export function RegisterPartyPlaceScreen({ navigation }) {
@@ -84,6 +85,22 @@ export function RegisterPartyPlaceScreen({ navigation }) {
         </Text>
       </View>
     ) : null;
+  /* função para checar se está retornando o CNPJ do GitHub sem mascara e válido
+  function showCnpj() {
+    const unmasked = this.cnpjField.getRawValue();
+    const cnpjIsValid = this.cnpjField.getRawValue()
+    alert(unmasked);
+    alert(cnpjIsValid);
+  }
+  */
+  /* função para checar se está retornando o CNPJ do vídeo sem mascara e válido
+  function showCnpj() {
+    const unmask = cnpjRef?.current.getRawValue();
+    const cnpjIsValid = cnpjRef?.current.isValid();
+    alert(unmask);
+    alert(cnpjIsValid);
+  }
+  */
 
   const [name, setname] = React.useState('');
   const [cnpjPartyPlace, setcnpjPartyPlace] = React.useState('');
@@ -100,6 +117,7 @@ export function RegisterPartyPlaceScreen({ navigation }) {
   const [password, setPasswordPlace] = React.useState('');
   const [passwordConfirmation, setPasswordConfirmationPlace] = React.useState('');
   const [checked, setChecked] = React.useState(false);
+  //const cnpjRef = useRef(null);
 
   return (
     <Layout style={{ flex: 1, paddingTop: 20 }}>
@@ -124,30 +142,40 @@ export function RegisterPartyPlaceScreen({ navigation }) {
               onChangeText={(nextValue) => setname(nextValue)}
             />
 
-            <Input
-              style={styles.inputContainer}
-              label="CNPJ"
-              caption={renderCaption(
-                cnpjPartyPlace ? !cnpj.isValid(cnpjPartyPlace) : false,
-                'CNPJ inválido!',
-              )}
-              required
-              placeholder="99.999.999/9999-99"
+            <Text style={styles.inputTitle} category="c1">
+              CNPJ
+            </Text>
+
+            <TextInputMask
+              style={styles.inputContainerMask}
+              type={'cnpj'}
               value={cnpjPartyPlace}
               onChangeText={(nextValue) => setcnpjPartyPlace(nextValue)}
+              placeholder="99.999.999/9999-99"
+              /* Dois tipo de referencia, a primeira de um vídeo a segunda do gitHub
+              ref=(cnpjRef)
+              ref={(ref) => this.cnpjField = ref}
+              */
+              /*
+              Caption para renderizar a validação através do método isValid()
+              caption={renderCaption(
+              )}
+              */
             />
           </Layout>
-
           <Layout style={styles.formContainer}>
             <Text category="s1">Endereço</Text>
 
-            <Input
-              style={styles.inputContainer}
-              label="CEP"
-              required
-              placeholder="99999-999"
+            <Text style={styles.inputTitle} category="c1">
+              CEP
+            </Text>
+
+            <TextInputMask
+              style={styles.inputContainerMask}
+              type={'zip-code'}
               value={postal_code}
               onChangeText={(nextValue) => setpostal_code(nextValue)}
+              placeholder="99999-999"
             />
 
             <Input
@@ -167,6 +195,7 @@ export function RegisterPartyPlaceScreen({ navigation }) {
                 placeholder="Número"
                 value={number}
                 onChangeText={(nextValue) => setnumber(nextValue)}
+                keyboardType="number-pad"
               />
 
               <Input
@@ -199,23 +228,40 @@ export function RegisterPartyPlaceScreen({ navigation }) {
               onChangeText={(nextValue) => setmain_contact(nextValue)}
             />
 
-            <Layout style={styles.inputContainerRow}>
-              <Input
-                style={{ flex: 2, marginRight: 5 }}
-                label="Telefone"
-                placeholder="9999-9999"
-                value={phone}
-                onChangeText={(nextValue) => setPhonePlace(nextValue)}
-              />
-              <Input
-                style={{ flex: 2, marginLeft: 5 }}
-                label="Celular"
-                required
-                placeholder="(99) 99999-9999"
-                value={cellphone}
-                onChangeText={(nextValue) => setcellphonePlace(nextValue)}
-              />
-            </Layout>
+            <Text style={styles.inputTitle} category="c1">
+              Telefone
+            </Text>
+
+            <TextInputMask
+              style={styles.inputContainerMask}
+              type={'cel-phone'}
+              options={{
+                maskType: 'BRL',
+                withDDD: true,
+                dddMask: '(99) ',
+              }}
+              value={phone}
+              onChangeText={(nextValue) => setPhonePlace(nextValue)}
+              placeholder="(99) 99999-999"
+            />
+
+            <Text style={styles.inputTitle} category="c1">
+              Celular
+            </Text>
+
+            <TextInputMask
+              style={styles.inputContainerMask}
+              type={'cel-phone'}
+              options={{
+                maskType: 'BRL',
+                withDDD: true,
+                dddMask: '(99) ',
+              }}
+              value={cellphone}
+              onChangeText={(nextValue) => setcellphonePlace(nextValue)}
+              placeholder="(88) 88888-8888"
+              required
+            />
           </Layout>
 
           <Layout style={styles.formContainer}>
@@ -314,7 +360,7 @@ export function RegisterPartyPlaceScreen({ navigation }) {
               passwordConfirmation,
               password === passwordConfirmation,
               checked,
-              cnpj.isValid(cnpjPartyPlace),
+              //cnpj.isValid(cnpjPartyPlace),
             ])}
             onPress={registerPartyPlace}
           >

@@ -1,32 +1,30 @@
-import React from 'react'
 
-import store from './src/store'
-import { Provider } from 'react-redux'
+import { Provider } from 'react-redux';
+import store from './src/store';
 
 // Toast messages
-import Toast from 'react-native-toast-message'
+import Toast from 'react-native-toast-message';
 
 // UI
-import * as eva from '@eva-design/eva'
-import { ApplicationProvider, IconRegistry } from '@ui-kitten/components'
-import { EvaIconsPack } from '@ui-kitten/eva-icons'
+import * as eva from '@eva-design/eva';
+import { ApplicationProvider, IconRegistry } from '@ui-kitten/components';
+import { EvaIconsPack } from '@ui-kitten/eva-icons';
 
 // Navigation
-import { AppNavigator } from './src/navigators/navigation'
+import { AppNavigator } from './src/navigators/navigation';
 
 // Query
-import NetInfo from '@react-native-community/netinfo'
-import { onlineManager } from 'react-query'
-import { QueryClient, QueryClientProvider } from 'react-query'
+import NetInfo from '@react-native-community/netinfo';
+import { onlineManager, QueryClient, QueryClientProvider } from 'react-query';
 
 onlineManager.setEventListener((setOnline) => {
   return NetInfo.addEventListener((state) => {
-    setOnline(state.isConnected)
-  })
-})
+    setOnline(state.isConnected);
+  });
+});
 
 export default function App() {
-  const queryClient = new QueryClient()
+  const queryClient = new QueryClient();
 
   return (
     <Provider store={store}>
@@ -40,5 +38,5 @@ export default function App() {
         <Toast />
       </QueryClientProvider>
     </Provider>
-  )
+  );
 }

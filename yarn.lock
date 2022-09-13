@@ -4663,6 +4663,11 @@
     "whatwg-mimetype" "^2.3.0"
     "whatwg-url" "^8.0.0"
 
+"date-and-time@0.9.0":
+  "integrity" "sha512-4JybB6PbR+EebpFx/KyR5Ybl+TcdXMLIJkyYsCx3P4M4CWGMuDyFF19yh6TyasMAIF5lrsgIxiSHBXh2FFc7Fg=="
+  "resolved" "https://registry.npmjs.org/date-and-time/-/date-and-time-0.9.0.tgz"
+  "version" "0.9.0"
+
 "dayjs@^1.8.15":
   "integrity" "sha512-F4LXf1OeU9hrSYRPTTj/6FbO4HTjPKXvEIC1P2kcnFurViINCVk3ZV0xAS3XVx9MkMsXbbqlK6hjseaYbgKEHw=="
   "resolved" "https://registry.npmjs.org/dayjs/-/dayjs-1.11.2.tgz"
@@ -10860,6 +10865,14 @@
   "resolved" "https://registry.npmjs.org/react-native-gradle-plugin/-/react-native-gradle-plugin-0.0.6.tgz"
   "version" "0.0.6"
 
+"react-native-masked-text@^1.13.0":
+  "integrity" "sha512-iMku5Ky6DP4fTRosjsYNJOhH8yoBQCzRALBdv1wVDKmCBQhhVE8RHr5EW4SNUjkYTZL473sDdEKl4NI948q9FQ=="
+  "resolved" "https://registry.npmjs.org/react-native-masked-text/-/react-native-masked-text-1.13.0.tgz"
+  "version" "1.13.0"
+  dependencies:
+    "date-and-time" "0.9.0"
+    "tinymask" "1.0.2"
+
 "react-native-reanimated@~2.8.0":
   "integrity" "sha512-kJvf/UWLBMaGCs9X66MKq5zdFMgwx8D0nHnolbHR7s8ZnbLdb7TlQ/yuzIXqn/9wABfnwtNRI3CyaP1aHWMmZg=="
   "resolved" "https://registry.npmjs.org/react-native-reanimated/-/react-native-reanimated-2.8.0.tgz"
@@ -12667,6 +12680,11 @@
   "integrity" "sha1-QFQRqOfmM5/mTbmiNN4R3DHgK9Q="
   "resolved" "https://registry.npmjs.org/timsort/-/timsort-0.3.0.tgz"
   "version" "0.3.0"
+
+"tinymask@1.0.2":
+  "integrity" "sha512-2FjNINAMq0s3e94ns2PuElOQZOt9QVgnrv0JZ8yNblwecyQDhVsSre6Rs+WJj/IHEcgdfYbDMP7zvECTfV/Xnw=="
+  "resolved" "https://registry.npmjs.org/tinymask/-/tinymask-1.0.2.tgz"
+  "version" "1.0.2"
 
 "tmp@^0.0.33":
   "integrity" "sha512-jRCJlojKnZ3addtTOjdIqoRuPEKBvNXcGYqzO6zWZX8KfKEpnGY5jfggJQ3EjKuu8D4bJRr0y+cYJFmYbImXGw=="

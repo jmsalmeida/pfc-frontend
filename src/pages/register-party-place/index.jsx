@@ -7,7 +7,7 @@ import {
   Radio,
   Text,
   TopNavigation,
-  TopNavigationAction
+  TopNavigationAction,
 } from '@ui-kitten/components';
 import { cnpj } from 'cpf-cnpj-validator';
 import React from 'react';
@@ -16,6 +16,7 @@ import Toast from 'react-native-toast-message';
 import { api } from '../../services/api';
 import { disableButton } from '../../util/utils';
 import { styles } from './styles';
+import { InputWithMask } from '../../components/input-with-mask';
 
 export function RegisterPartyPlaceScreen({ navigation }) {
   const navigateBack = () => {
@@ -63,7 +64,6 @@ export function RegisterPartyPlaceScreen({ navigation }) {
         onShow: () => navigation.navigate('Login'),
       });
     } catch (error) {
-      console.log(error);
       const errorMessage = error.body.errors[0];
       Toast.show({
         type: 'error',
@@ -127,7 +127,9 @@ export function RegisterPartyPlaceScreen({ navigation }) {
               onChangeText={(nextValue) => setName(nextValue)}
             />
 
-            <Input
+            <InputWithMask
+              mask="cnpj"
+              onMask={(unmaskedValue) => setPartyPlaceCnpj(unmaskedValue)}
               style={styles.inputContainer}
               label="CNPJ"
               caption={renderCaption(
@@ -136,8 +138,6 @@ export function RegisterPartyPlaceScreen({ navigation }) {
               )}
               required
               placeholder="99.999.999/9999-99"
-              value={partyPlaceCnpj}
-              onChangeText={(nextValue) => setPartyPlaceCnpj(nextValue)}
             />
           </Layout>
 

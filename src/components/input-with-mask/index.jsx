@@ -1,5 +1,5 @@
-import React from 'react';
 import { Input } from '@ui-kitten/components';
+import React from 'react';
 import { formatWithMask, Masks } from 'react-native-mask-input';
 
 export function InputWithMask({ mask, onMask, ...inputAttrs }) {
@@ -11,7 +11,7 @@ export function InputWithMask({ mask, onMask, ...inputAttrs }) {
         return Masks.BRL_CNPJ;
       case 'zipCode':
         return Masks.ZIP_CODE;
-      case 'cellphone':
+      case 'cellPhone':
         return Masks.BRL_PHONE;
       default:
         throw 'Invalid mask';

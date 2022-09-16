@@ -7,16 +7,16 @@ import {
   Radio,
   Text,
   TopNavigation,
-  TopNavigationAction,
+  TopNavigationAction
 } from '@ui-kitten/components';
 import { cnpj } from 'cpf-cnpj-validator';
 import React from 'react';
 import { Linking, ScrollView, View } from 'react-native';
 import Toast from 'react-native-toast-message';
+import { InputWithMask } from '../../components/input-with-mask';
 import { api } from '../../services/api';
 import { disableButton } from '../../util/utils';
 import { styles } from './styles';
-import { InputWithMask } from '../../components/input-with-mask';
 
 export function RegisterPartyPlaceScreen({ navigation }) {
   const navigateBack = () => {
@@ -138,19 +138,20 @@ export function RegisterPartyPlaceScreen({ navigation }) {
               )}
               required
               placeholder="99.999.999/9999-99"
+              keyboardType="number-pad"
             />
           </Layout>
 
           <Layout style={styles.formContainer}>
             <Text category="s1">Endereço</Text>
-
-            <Input
+            <InputWithMask
+              mask="zipCode"
+              onMask={(unmaskedValue) => setPostalCode(unmaskedValue)}
               style={styles.inputContainer}
               label="CEP"
               required
               placeholder="99999-999"
-              value={postalCode}
-              onChangeText={(nextValue) => setPostalCode(nextValue)}
+              keyboardType="number-pad"
             />
 
             <Input
@@ -203,20 +204,23 @@ export function RegisterPartyPlaceScreen({ navigation }) {
             />
 
             <Layout style={styles.inputContainerRow}>
-              <Input
+              <InputWithMask
+                mask="cellPhone"
+                onMask={(unmaskedValue) => setPhone(unmaskedValue)}
                 style={{ flex: 2, marginRight: 5 }}
                 label="Telefone"
-                placeholder="9999-9999"
-                value={phone}
-                onChangeText={(nextValue) => setPhone(nextValue)}
+                required
+                placeholder="(99) 99999-9999"
+                keyboardType="number-pad"
               />
-              <Input
+              <InputWithMask
+                mask="cellPhone"
+                onMask={(unmaskedValue) => setCellphone(unmaskedValue)}
                 style={{ flex: 2, marginLeft: 5 }}
                 label="Celular"
                 required
                 placeholder="(99) 99999-9999"
-                value={cellphone}
-                onChangeText={(nextValue) => setCellphone(nextValue)}
+                keyboardType="number-pad"
               />
             </Layout>
           </Layout>

@@ -1,10 +1,11 @@
-import { Button, Icon, Input, Layout, TopNavigation } from '@ui-kitten/components';
+import { Icon, Input, Layout } from '@ui-kitten/components';
 import React from 'react';
 import { ActivityIndicator, FlatList } from 'react-native';
 import { NotFound } from '../../components/item-not-found';
-import { LogoutAction } from '../../components/logout-action';
 import { PartyPlaceCard } from '../../components/party-place-card';
+import { UserProfileHeader } from '../../components/user-profile-header';
 import { api } from '../../services/api';
+import { styles } from './styles';
 
 export function SearchPartyScreen() {
   const [isLoading, setLoading] = React.useState(true);
@@ -46,9 +47,12 @@ export function SearchPartyScreen() {
     setLoading(false);
   };
 
-  const renderClearButton = (searchText) => {
-    if (!searchText) return;
-    return <Icon name="close-outline" onPress={clearSearch} />;
+  const renderClearButton = () => {
+    if (searchText) {
+      return <Icon name="close-outline" onPress={clearSearch} />;
+    } else {
+      return <Icon name="search-outline" onPress={filterPartyPlace} />;
+    }
   };
 
   const partyPlaceResults = () => {
@@ -64,24 +68,16 @@ export function SearchPartyScreen() {
   };
 
   return (
-    <Layout style={{ flex: 1 }}>
-      <TopNavigation title="Buscar" accessoryRight={LogoutAction} />
+    <Layout style={{ flex: 1, paddingHorizontal: 20 }}>
+      <UserProfileHeader />
 
       <Layout style={{ flexDirection: 'row' }}>
         <Input
-          style={{ margin: 5, flex: 9 }}
+          style={styles.inputSearch}
           value={searchText}
+          accessoryRight={renderClearButton()}
           placeholder="Faça a sua busca"
-          accessoryRight={renderClearButton(searchText)}
           onChangeText={(nextValue) => setSearchText(nextValue)}
-        />
-
-        <Button
-          style={{ flex: 1 }}
-          size="medium"
-          appearance="ghost"
-          accessoryLeft={<Icon name="search-outline" />}
-          onPress={() => filterPartyPlace(searchText)}
         />
       </Layout>
 

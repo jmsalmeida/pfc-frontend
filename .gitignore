@@ -128,3 +128,5 @@ package-lock.json
 
 # Export
 .expo/
+
+.env

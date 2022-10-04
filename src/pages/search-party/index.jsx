@@ -1,5 +1,5 @@
 import { Icon, Input, Layout } from '@ui-kitten/components';
-import React from 'react';
+import { useEffect, useState } from 'react';
 import { ActivityIndicator, FlatList } from 'react-native';
 import { NotFound } from '../../components/item-not-found';
 import { PartyPlaceCard } from '../../components/party-place-card';
@@ -7,10 +7,10 @@ import { UserProfileHeader } from '../../components/user-profile-header';
 import { api } from '../../services/api';
 import { styles } from './styles';
 
-export function SearchPartyScreen() {
-  const [isLoading, setLoading] = React.useState(true);
-  const [searchText, setSearchText] = React.useState('');
-  const [partyPlaces, setPartyPlaces] = React.useState([]);
+export function SearchPartyScreen({ navigation }) {
+  const [isLoading, setLoading] = useState(true);
+  const [searchText, setSearchText] = useState('');
+  const [partyPlaces, setPartyPlaces] = useState([]);
 
   const getPartyPlaces = async (partyPlaceName = null) => {
     setLoading(true);
@@ -31,14 +31,9 @@ export function SearchPartyScreen() {
     }
   };
 
-  const filterPartyPlace = async (partyPlaceName) => {
-    await getPartyPlaces(partyPlaceName);
-  };
-
-  // TODO: Fix bug on remove []
-  React.useEffect(() => {
+  useEffect(() => {
     getPartyPlaces(searchText);
-  }, []);
+  }, [searchText]);
 
   const clearSearch = async () => {
     setSearchText('');
@@ -51,7 +46,7 @@ export function SearchPartyScreen() {
     if (searchText) {
       return <Icon name="close-outline" onPress={clearSearch} />;
     } else {
-      return <Icon name="search-outline" onPress={filterPartyPlace} />;
+      return <Icon name="search-outline" />;
     }
   };
 
@@ -62,7 +57,7 @@ export function SearchPartyScreen() {
       <FlatList
         data={partyPlaces}
         keyExtractor={({ id }) => id}
-        renderItem={({ item }) => <PartyPlaceCard partyPlace={item} />}
+        renderItem={({ item }) => <PartyPlaceCard partyPlace={item} navigation={navigation} />}
       />
     );
   };

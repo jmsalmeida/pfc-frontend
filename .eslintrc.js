@@ -4,7 +4,12 @@ module.exports = {
     node: true,
     'react-native/react-native': true,
   },
-  extends: ['eslint:recommended', 'plugin:react/recommended', 'plugin:react-hooks/recommended'],
+  extends: [
+    'eslint:recommended',
+    'plugin:react/recommended',
+    'plugin:react-hooks/recommended',
+    'plugin:react/jsx-runtime',
+  ],
   overrides: [],
   parserOptions: {
     ecmaVersion: 'latest',
@@ -30,4 +35,4 @@ module.exports = {
       version: 'detect',
     },
   },
-}
+};

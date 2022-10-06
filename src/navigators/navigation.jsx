@@ -1,6 +1,6 @@
+import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import React from 'react';
 import { useSelector } from 'react-redux';
 import { LoginScreen } from '../pages/login';
 import { PartyPlaceHomeScreen } from '../pages/party-place-home';

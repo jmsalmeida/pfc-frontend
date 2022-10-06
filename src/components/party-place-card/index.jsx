@@ -1,32 +1,49 @@
-import { Avatar, Button, Card, Icon, Layout, Text } from '@ui-kitten/components';
+import { Icon, Layout, Text } from '@ui-kitten/components';
 import React from 'react';
+import { styles } from './styles';
+import { ImageBackground, View } from 'react-native';
 
 export function PartyPlaceCard({ partyPlace }) {
+  const { street, city, place_number, district } = partyPlace.address;
+  const placeAddress = `${street}, ${place_number}. ${district} - ${city}, SP`;
+
   function Footer(props) {
     return (
-      <Layout {...props} style={{ alignItems: 'flex-end' }}>
-        <Button
-          size="small"
-          appearance="ghost"
-          accessoryRight={<Icon name="arrow-forward-outline" />}
-        >
-          Detalhes
-        </Button>
-      </Layout>
+      <View {...props} style={styles.card.footer}>
+        <View style={{ flex: 4 }}>
+          <Text category="h5">{partyPlace.name}</Text>
+          <Text category="p2">{placeAddress}</Text>
+        </View>
+
+        <Icon
+          fill="#8F9BB3"
+          name="arrow-forward-outline"
+          style={{ flex: 1, justifyContent: 'flex-end', width: 18 }}
+        />
+      </View>
+    );
+  }
+
+  function Header(props) {
+    return (
+      <View {...props}>
+        <ImageBackground
+          resizeMode="cover"
+          source={require('../../assets/img_pub.png')}
+          style={{ flex: 1, height: 250 }}
+          imageStyle={{
+            borderTopLeftRadius: 20,
+            borderTopRightRadius: 20,
+          }}
+        ></ImageBackground>
+      </View>
     );
   }
 
   return (
-    <Card style={{ margin: 4 }} footer={Footer}>
-      <Layout style={{ flexDirection: 'row' }}>
-        <Layout style={{ flex: 2 }}>
-          <Avatar size="giant" source={require('../../assets/logo.png')} />
-        </Layout>
-
-        <Layout style={{ flex: 6 }}>
-          <Text category="h6">{partyPlace.name}</Text>
-        </Layout>
-      </Layout>
-    </Card>
+    <Layout style={styles.card}>
+      <Header />
+      <Footer />
+    </Layout>
   );
 }

@@ -8,6 +8,7 @@ import { RegisterPartyPlaceScreen } from '../pages/register-party-place';
 import { RegisterPartyerScreen } from '../pages/register-partyer';
 import { SearchPartyScreen } from '../pages/search-party';
 import { SelectUserTypeScreen } from '../pages/select-user-type';
+import { PartyPlaceScreen } from '../pages/party-place';
 
 const { Navigator, Screen } = createStackNavigator();
 
@@ -23,6 +24,7 @@ function LoginNavigator() {
     ) : (
       <Navigator screenOptions={{ headerShown: false }}>
         <Screen name="SearchParty" component={SearchPartyScreen} />
+        <Screen name="PartyPlace" component={PartyPlaceScreen} />
       </Navigator>
     );
   };

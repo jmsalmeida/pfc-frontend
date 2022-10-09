@@ -1,9 +1,12 @@
 import { Icon, Layout, Text } from '@ui-kitten/components';
-import React from 'react';
 import { styles } from './styles';
 import { ImageBackground, View } from 'react-native';
 
-export function PartyPlaceCard({ partyPlace }) {
+export function PartyPlaceCard({ partyPlace, navigation }) {
+  const navigatePartyPlace = () => {
+    navigation.navigate('PartyPlace', { placeId: partyPlace.id });
+  };
+
   const { street, city, place_number, district } = partyPlace.address;
   const placeAddress = `${street}, ${place_number}. ${district} - ${city}, SP`;
 
@@ -18,6 +21,7 @@ export function PartyPlaceCard({ partyPlace }) {
         <Icon
           fill="#8F9BB3"
           name="arrow-forward-outline"
+          onPress={navigatePartyPlace}
           style={{ flex: 1, justifyContent: 'flex-end', width: 18 }}
         />
       </View>

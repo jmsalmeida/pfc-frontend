@@ -1,19 +1,13 @@
 import { useEffect, useState } from 'react';
-import {
-  Text,
-  Layout,
-  TopNavigation,
-  TopNavigationAction,
-  Icon,
-  Button,
-} from '@ui-kitten/components';
+import { Text, Layout, TopNavigation, TopNavigationAction, Icon } from '@ui-kitten/components';
 import { ActivityIndicator, View, Image } from 'react-native';
 import { api } from '../../services/api';
 import Toast from 'react-native-toast-message';
+import { Checkin } from '../../components/checkin';
 
 export function PartyPlaceScreen({ route, navigation }) {
   const { placeId } = route.params;
-  const goBack = () => {
+  const navigateSearchParty = () => {
     navigation.navigate('SearchParty');
   };
 
@@ -34,7 +28,7 @@ export function PartyPlaceScreen({ route, navigation }) {
         Toast.show({
           type: 'error',
           text1: 'Local não encontrado',
-          onHide: () => navigation.navigate('SearchParty'),
+          onHide: () => navigateSearchParty(),
         });
       }
     } finally {
@@ -87,7 +81,10 @@ export function PartyPlaceScreen({ route, navigation }) {
             {placeAddress}
           </Text>
         </View>
+
         {renderPartyFeatures()}
+
+        <Checkin partyPlace={partyPlace} onSucess={navigateSearchParty} />
       </View>
     );
   };
@@ -95,18 +92,12 @@ export function PartyPlaceScreen({ route, navigation }) {
   return (
     <Layout style={{ flex: 1 }}>
       <TopNavigation
-        accessoryLeft={<TopNavigationAction icon={<Icon name="arrow-back" onPress={goBack} />} />}
+        accessoryLeft={
+          <TopNavigationAction icon={<Icon name="arrow-back" onPress={navigateSearchParty} />} />
+        }
       />
 
       {loading ? <ActivityIndicator /> : renderPartyInfo()}
-
-      <View
-        style={{
-          padding: 20,
-        }}
-      >
-        <Button status="primary">Cola Aqui</Button>
-      </View>
     </Layout>
   );
 }

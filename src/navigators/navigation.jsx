@@ -1,4 +1,3 @@
-import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { useSelector } from 'react-redux';
@@ -9,6 +8,7 @@ import { RegisterPartyerScreen } from '../pages/register-partyer';
 import { SearchPartyScreen } from '../pages/search-party';
 import { SelectUserTypeScreen } from '../pages/select-user-type';
 import { PartyPlaceScreen } from '../pages/party-place';
+import { CompletePartyFeaturesScreen } from '../pages/complete-party-features';
 
 const { Navigator, Screen } = createStackNavigator();
 
@@ -16,11 +16,17 @@ function LoginNavigator() {
   const userToken = useSelector((state) => state.userSession.token);
   const currentUser = useSelector((state) => state.userSession.currentUser);
 
+  const handleCompletedPlaces = () => {
+    return currentUser.party_place.features_is_completed ? (
+      <Screen name="PartyPlaceHome" component={PartyPlaceHomeScreen} />
+    ) : (
+      <Screen name="CompletePartyFeatures" component={CompletePartyFeaturesScreen} />
+    );
+  };
+
   const renderExpectedUserArea = () => {
     return currentUser['user_type'] === 'party_place' ? (
-      <Navigator screenOptions={{ headerShown: false }}>
-        <Screen name="PartyPlaceHome" component={PartyPlaceHomeScreen} />
-      </Navigator>
+      <Navigator screenOptions={{ headerShown: false }}>{handleCompletedPlaces()}</Navigator>
     ) : (
       <Navigator screenOptions={{ headerShown: false }}>
         <Screen name="SearchParty" component={SearchPartyScreen} />

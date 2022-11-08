@@ -1,4 +1,3 @@
-import React from 'react';
 import Toast from 'react-native-toast-message';
 
 import { Button } from '@ui-kitten/components';

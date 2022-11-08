@@ -19,9 +19,17 @@ export const sessionSlice = createSlice({
     clearCurrentUser: (state) => {
       state.currentUser = null;
     },
+    setFeaturesIsCompleted: (state, action) => {
+      state.currentUser = { ...action.payload, party_place: { features_is_completed: true } };
+    },
   },
 });
 
-export const { clearUserSession, setUserSession, setCurrentUser, clearCurrentUser } =
-  sessionSlice.actions;
+export const {
+  clearUserSession,
+  setUserSession,
+  setCurrentUser,
+  clearCurrentUser,
+  setFeaturesIsCompleted,
+} = sessionSlice.actions;
 export default sessionSlice.reducer;

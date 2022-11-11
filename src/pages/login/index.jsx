@@ -30,21 +30,33 @@ export function LoginScreen({ navigation }) {
 
       if (!response.ok) throw response;
 
-      await api.jwt(response.body.Authorization);
-      dispatch(setUserSession(response.body.Authorization));
-      dispatch(setCurrentUser(response.body.user));
+      const { user } = response.body;
+      dispatch(setCurrentUser(user));
 
-      Toast.show({
-        type: 'success',
-        visibilityTime: 1000,
-        text1: 'Bem vindo ao Cola Aqui!',
-      });
+      if (user.email_confirmed) {
+        const { Authorization } = response.body;
+
+        await api.jwt(Authorization);
+        dispatch(setUserSession(Authorization));
+
+        Toast.show({
+          type: 'success',
+          text1: 'Bem vindo ao Cola Aqui!',
+        });
+      } else {
+        Toast.show({
+          type: 'info',
+          text1: 'Usuário não confirmado!',
+          text2: 'Você será redirecionado para a confirmação',
+          onHide: () => navigation.navigate('ConfirmUserEmail'),
+        });
+      }
     } catch (error) {
       const errorMessage = error.body.errors[0];
+
       Toast.show({
         type: 'error',
         text1: errorMessage,
-        onHide: () => setPassword(''),
       });
     }
   };

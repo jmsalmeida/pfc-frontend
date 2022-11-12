@@ -9,6 +9,7 @@ import { SearchPartyScreen } from '../pages/search-party';
 import { SelectUserTypeScreen } from '../pages/select-user-type';
 import { PartyPlaceScreen } from '../pages/party-place';
 import { CompletePartyFeaturesScreen } from '../pages/complete-party-features';
+import { ConfirmUserEmailScreen } from '../pages/confirm-user-email';
 
 const { Navigator, Screen } = createStackNavigator();
 
@@ -40,6 +41,7 @@ function LoginNavigator() {
   ) : (
     <Navigator screenOptions={{ headerShown: false }}>
       <Screen name="Login" component={LoginScreen} />
+      <Screen name="ConfirmUserEmail" component={ConfirmUserEmailScreen} />
       <Screen name="SelectUserType" component={SelectUserTypeScreen} />
       <Screen name="RegisterPartyer" component={RegisterPartyerScreen} />
       <Screen name="RegisterPartyPlace" component={RegisterPartyPlaceScreen} />

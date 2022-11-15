@@ -1,7 +1,8 @@
-import { Icon, Input, Layout } from '@ui-kitten/components';
+import { Icon, Input, Layout, TopNavigation } from '@ui-kitten/components';
 import { useEffect, useState } from 'react';
 import { ActivityIndicator, FlatList } from 'react-native';
 import { NotFound } from '../../components/item-not-found';
+import { LogoutAction } from '../../components/logout-action';
 import { PartyPlaceCard } from '../../components/party-place-card';
 import { UserProfileHeader } from '../../components/user-profile-header';
 import { api } from '../../services/api';
@@ -64,7 +65,7 @@ export function SearchPartyScreen({ navigation }) {
 
   return (
     <Layout style={{ flex: 1, paddingHorizontal: 20 }}>
-      <UserProfileHeader />
+      <TopNavigation title={UserProfileHeader} accessoryRight={LogoutAction} />
 
       <Layout style={{ flexDirection: 'row' }}>
         <Input

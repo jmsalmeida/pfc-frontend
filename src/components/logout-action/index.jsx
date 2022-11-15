@@ -31,7 +31,7 @@ export function LogoutAction() {
   };
 
   return (
-    <Button size="medium" appearance="ghost" onPress={logoutAction}>
+    <Button size="small" status="danger" onPress={logoutAction}>
       Sair
     </Button>
   );

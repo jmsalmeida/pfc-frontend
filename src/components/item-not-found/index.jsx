@@ -1,5 +1,4 @@
 import { Layout, Text } from '@ui-kitten/components';
-import React from 'react';
 import { styles } from './styles';
 
 export function NotFound() {
@@ -9,7 +8,7 @@ export function NotFound() {
         Local não encontrado
       </Text>
       <Text category="p2" style={styles.centerText}>
-        Este estabelecimento não está cadastrado em nossa plataforma
+        Infelizmente não encontramos estabelecimentos com estas caracteristicas no cola aqui
       </Text>
     </Layout>
   );

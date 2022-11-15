@@ -21,8 +21,9 @@ export function Tag({ isSelected, content, afterSelection }) {
 
 const styles = StyleSheet.create({
   tagContainer: {
-    margin: 4,
     borderRadius: 50,
+    marginVertical: 4,
+    marginHorizontal: 6,
     backgroundColor: '#E0E0E0',
   },
 
@@ -32,8 +33,8 @@ const styles = StyleSheet.create({
     color: '#1c1b1b',
     fontWeight: '500',
     textAlign: 'center',
-    paddingVertical: 12,
-    paddingHorizontal: 20,
+    paddingVertical: 8,
+    paddingHorizontal: 24,
   },
 
   activeTag: {

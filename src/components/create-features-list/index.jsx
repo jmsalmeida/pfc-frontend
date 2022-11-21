@@ -15,7 +15,7 @@ export function CreateFeaturesList({ featureTypes, list, setList }) {
   return (
     <View
       style={{
-        marginTop: 20,
+        marginTop: 15,
         flexWrap: 'wrap',
         flexDirection: 'row',
       }}

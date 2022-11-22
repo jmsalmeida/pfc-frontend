@@ -37,7 +37,7 @@ export function PartyPlaceHomeScreen() {
   };
 
   const getPartyPlace = useCallback(async () => {
-    const url = `party-places/${currentUser.party_place.id}`;
+    const url = `party-places/${currentUser?.party_place.id}`;
 
     try {
       let response = await api.get(url);

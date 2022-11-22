@@ -10,6 +10,7 @@ import { SelectUserTypeScreen } from '../pages/select-user-type';
 import { PartyPlaceScreen } from '../pages/party-place';
 import { CompletePartyFeaturesScreen } from '../pages/complete-party-features';
 import { ConfirmUserEmailScreen } from '../pages/confirm-user-email';
+import { isPartyPlace } from '../util/utils';
 
 const { Navigator, Screen } = createStackNavigator();
 
@@ -18,7 +19,7 @@ function LoginNavigator() {
   const currentUser = useSelector((state) => state.userSession.currentUser);
 
   const handleCompletedPlaces = () => {
-    return currentUser.party_place.features_is_completed ? (
+    return currentUser?.party_place?.features_is_completed ? (
       <Screen name="PartyPlaceHome" component={PartyPlaceHomeScreen} />
     ) : (
       <Screen name="CompletePartyFeatures" component={CompletePartyFeaturesScreen} />
@@ -26,7 +27,7 @@ function LoginNavigator() {
   };
 
   const renderExpectedUserArea = () => {
-    return currentUser['user_type'] === 'party_place' ? (
+    return isPartyPlace(currentUser['user_type']) ? (
       <Navigator screenOptions={{ headerShown: false }}>{handleCompletedPlaces()}</Navigator>
     ) : (
       <Navigator screenOptions={{ headerShown: false }}>

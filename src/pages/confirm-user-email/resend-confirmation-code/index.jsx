@@ -9,7 +9,7 @@ export function ResendConfirmationCode() {
   const resendConfirmationCode = async () => {
     try {
       const response = await api.post('/auth/resend-email-confirmation', {
-        body: JSON.stringify({ user_id: currentUser.id }),
+        body: JSON.stringify({ user_id: currentUser?.id }),
       });
 
       if (!response.ok) throw response;
@@ -17,7 +17,7 @@ export function ResendConfirmationCode() {
       Toast.show({
         type: 'info',
         text1: 'Código re-enviado',
-        text2: `Verifique o email ${currentUser.email}`,
+        text2: `Verifique o email ${currentUser?.email}`,
       });
     } catch (error) {
       const errorMessage = error.body.errors[0];

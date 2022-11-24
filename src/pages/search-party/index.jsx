@@ -85,7 +85,7 @@ export function SearchPartyScreen({ navigation }) {
     if (!partyPlaces.length) return <NotFound />;
 
     return (
-      <View>
+      <View style={{ paddingBottom: 60 }}>
         <Text category="s2">{partyPlaces.length} resultados</Text>
 
         <FlatList
@@ -97,9 +97,15 @@ export function SearchPartyScreen({ navigation }) {
     );
   };
 
+  const goToProfile = () => {
+    navigation.navigate('UserProfile');
+  };
+
+  const _renderUserProfileHeader = <UserProfileHeader onClick={goToProfile} />;
+
   return (
     <Layout style={{ flex: 1, paddingHorizontal: 20 }}>
-      <TopNavigation title={UserProfileHeader} accessoryRight={LogoutAction} />
+      <TopNavigation accessoryLeft={_renderUserProfileHeader} accessoryRight={LogoutAction} />
 
       <View
         style={{

@@ -13,7 +13,7 @@ import {
   SelectItem,
   Text,
   TopNavigation,
-  TopNavigationAction
+  TopNavigationAction,
 } from '@ui-kitten/components';
 import { ScrollView, View } from 'react-native';
 import { api } from '../../services/api';
@@ -57,7 +57,9 @@ export function RegisterPartyerScreen({ navigation }) {
     };
 
     try {
-      const response = await api.post('/auth/signup/partyer', { body: JSON.stringify(newUser) });
+      const response = await api.post('/auth/signup/partyer', {
+        body: JSON.stringify({ registerPartyer: { ...newUser } }),
+      });
       if (!response.ok) throw response;
 
       const { name } = newUser.partyer;

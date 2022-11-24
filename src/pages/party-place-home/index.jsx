@@ -10,7 +10,7 @@ import { UserProfileHeader } from '../../components/user-profile-header';
 import { api } from '../../services/api';
 import { styles } from './styles';
 
-export function PartyPlaceHomeScreen() {
+export function PartyPlaceHomeScreen({ navigation }) {
   const currentUser = useSelector((state) => state.userSession.currentUser);
   const [partyPlace, setPartyPlace] = useState({});
 
@@ -86,25 +86,36 @@ export function PartyPlaceHomeScreen() {
     </View>
   );
 
+  const goToProfile = () => {
+    navigation.navigate('UserProfile');
+  };
+
+  const _renderUserProfileHeader = <UserProfileHeader onClick={goToProfile} />;
+
   return (
     <Layout style={{ flex: 1, paddingHorizontal: 20 }}>
-      <TopNavigation title={UserProfileHeader} accessoryRight={LogoutAction} />
+      <TopNavigation accessoryLeft={_renderUserProfileHeader} accessoryRight={LogoutAction} />
+
       <Layout style={styles.formCenterTitle}>
         <Text category="h5" style={styles.formTitle}>
           Perfil do estabelecimento
         </Text>
       </Layout>
+
       {Object.keys(partyPlace).length > 0 && (
         <Card style={partyPlaceCardStyles.card} header={Header} footer={Footer}>
           <Text style={styles.formMiddleText}>
             Contato principal: <Text category="s1">{partyPlace.main_contact}</Text>
           </Text>
+
           <Text style={styles.formMiddleText}>
             CNPJ: <Text category="s1">{partyPlace.cnpj}</Text>
           </Text>
+
           <Text style={styles.formMiddleText}>
             Celular para contato: <Text category="s1">{partyPlace.cellphone}</Text>
           </Text>
+
           <Text style={styles.formMiddleText}>
             Endereço cadastrado:
             <Text category="s1">

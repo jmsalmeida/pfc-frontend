@@ -7,7 +7,7 @@ import {
   Radio,
   Text,
   TopNavigation,
-  TopNavigationAction
+  TopNavigationAction,
 } from '@ui-kitten/components';
 import { cnpj } from 'cpf-cnpj-validator';
 import React from 'react';
@@ -52,7 +52,7 @@ export function RegisterPartyPlaceScreen({ navigation }) {
 
     try {
       const response = await api.post('/auth/signup/party-place', {
-        body: JSON.stringify(newUser),
+        body: JSON.stringify({ registerPartyPlace: { ...newUser } }),
       });
       if (!response.ok) throw response;
 

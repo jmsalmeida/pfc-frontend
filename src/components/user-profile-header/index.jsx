@@ -1,20 +1,30 @@
-import React from 'react';
 import { useSelector } from 'react-redux';
 import { styles } from './styles';
 import { Avatar, Layout, Text } from '@ui-kitten/components';
+import { isPartyPlace } from '../../util/utils';
+import { useEffect, useState } from 'react';
+import { TouchableOpacity } from 'react-native';
 
-export function UserProfileHeader() {
+export function UserProfileHeader({ onClick }) {
   const currentUser = useSelector((state) => state.userSession.currentUser);
+  const [userName, setUserName] = useState('');
+
+  useEffect(() => {
+    setUserName(
+      isPartyPlace(currentUser?.user_type)
+        ? currentUser?.party_place?.main_contact
+        : currentUser?.partyer?.name,
+    );
+  }, [currentUser?.party_place?.main_contact, currentUser?.partyer?.name, currentUser?.user_type]);
 
   return (
-    <Layout style={styles.container}>
+    <TouchableOpacity style={styles.container} onPress={onClick}>
       <Avatar style={styles.avatar} size="medium" source={require('../../assets/logo.png')} />
 
       <Layout>
-        {/* <Text category="h6">{{currentUser.partyer.name}}</Text> */}
-        <Text category="h6">James Almeida</Text>
         <Text category="s2">Bem vindo!</Text>
+        <Text category="h6">{userName}</Text>
       </Layout>
-    </Layout>
+    </TouchableOpacity>
   );
 }

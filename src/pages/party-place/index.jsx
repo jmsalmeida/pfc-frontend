@@ -60,8 +60,7 @@ export function PartyPlaceScreen({ route, navigation }) {
     const placeAddress = `${street}, ${place_number}. ${district} - ${city}, SP`;
 
     return (
-      <View style={{ padding: 20 }}>
-        <Text category="h4">{partyPlace.name}</Text>
+      <View style={{ paddingHorizontal: 20 }}>
         <Image
           style={{ width: 'auto', height: 200, borderRadius: 20, marginVertical: 20 }}
           source={require('../../assets/img_pub.png')}
@@ -108,6 +107,7 @@ export function PartyPlaceScreen({ route, navigation }) {
   return (
     <Layout style={{ flex: 1 }}>
       <TopNavigation
+        title={partyPlace.name}
         accessoryLeft={
           <TopNavigationAction icon={<Icon name="arrow-back" onPress={navigateSearchParty} />} />
         }

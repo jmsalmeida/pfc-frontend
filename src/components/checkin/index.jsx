@@ -12,7 +12,7 @@ export function Checkin({ partyPlace, onSucess }) {
 
   const Header = (props) => (
     <View {...props}>
-      <Text category="h6">Confirmar</Text>
+      <Text category="h6">Confirmar check-in</Text>
     </View>
   );
 

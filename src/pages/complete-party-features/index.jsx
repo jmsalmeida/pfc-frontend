@@ -35,7 +35,7 @@ export function CompletePartyFeaturesScreen() {
     };
 
     try {
-      const response = await api.patch(`/party-features/${currentUser?.party_place.id}`, {
+      const response = await api.patch(`/party-features/${currentUser?.party_place?.id}`, {
         body: JSON.stringify({ partyFeatures: { ...partyFeatures } }),
       });
 

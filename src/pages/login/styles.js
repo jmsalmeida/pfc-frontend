@@ -21,7 +21,7 @@ export const styles = StyleSheet.create({
   },
 
   logoImage: {
-    width: 200,
-    height: 200,
+    width: 300,
+    height: 300,
   },
 });

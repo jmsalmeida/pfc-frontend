@@ -1,3 +1,4 @@
+import moment from 'moment';
 import { View, StyleSheet } from 'react-native';
 import {
   Layout,
@@ -125,7 +126,7 @@ export function UserProfileScreen({ navigation }) {
 
             <View>
               <Text category="s2">Cadastrado desde</Text>
-              <Text category="p1">{currentUser?.created_at}</Text>
+              <Text category="p1">{moment(currentUser?.created_at).format('DD/MM/YYYY')}</Text>
             </View>
           </Card>
 

@@ -35,7 +35,7 @@ export function ResendConfirmationCode() {
         Não recebeu o código? Verifique sua caixa de lixo eletrônico ou{' '}
         <Text
           category="s2"
-          style={{ color: '#3366FF', textDecorationLine: 'underline' }}
+          style={{ color: '#E09C0F', fontWeight: '700', textDecorationLine: 'underline' }}
           onPress={() => resendConfirmationCode()}
         >
           clique para receber novamente.

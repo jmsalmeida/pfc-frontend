@@ -7,7 +7,7 @@ import {
   TopNavigation,
   TopNavigationAction,
 } from '@ui-kitten/components';
-import React from 'react';
+import { Image } from 'react-native';
 import { styles } from './styles';
 
 export function SelectUserTypeScreen({ navigation }) {
@@ -41,6 +41,7 @@ export function SelectUserTypeScreen({ navigation }) {
       <Layout style={styles.container}>
         <Card style={styles.buttonCard} onPress={navigateRegister}>
           <Layout style={styles.descriptionRegister}>
+            <Image style={{ width: 150, height: 150 }} source={require('../../assets/icon.png')} />
             <Text category="h5">Cliente</Text>
             <Text category="p2">Quero buscar estabelecimentos</Text>
           </Layout>
@@ -48,6 +49,7 @@ export function SelectUserTypeScreen({ navigation }) {
 
         <Card style={styles.buttonCard} onPress={navigateRegisterPlace}>
           <Layout style={styles.descriptionRegister}>
+            <Image style={{ width: 150, height: 150 }} source={require('../../assets/icon.png')} />
             <Text category="h5">Estabelecimento</Text>
             <Text category="p2">Quero cadastrar meu estabelecimento</Text>
           </Layout>

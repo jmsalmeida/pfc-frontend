@@ -7,8 +7,11 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
   },
 
+  descriptionRegister: {
+    alignItems: 'center',
+  },
+
   buttonCard: {
-    paddingVertical: 6,
     marginTop: 10,
   },
 });

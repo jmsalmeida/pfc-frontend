@@ -19,7 +19,7 @@ export function UserProfileHeader({ onClick }) {
 
   return (
     <TouchableOpacity style={styles.container} onPress={onClick}>
-      <Avatar style={styles.avatar} size="medium" source={require('../../assets/logo.png')} />
+      <Avatar style={styles.avatar} size="medium" source={require('../../assets/icon.png')} />
 
       <Layout>
         <Text category="s2">Bem vindo!</Text>

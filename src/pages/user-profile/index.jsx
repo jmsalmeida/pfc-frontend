@@ -71,89 +71,86 @@ export function UserProfileScreen({ navigation }) {
   );
 
   return (
-    console.log({ currentUser }),
-    (
-      <Layout style={{ flex: 1 }}>
-        <TopNavigation
-          title="Perfil de usuário"
-          accessoryLeft={
-            <TopNavigationAction icon={<Icon name="arrow-back" onPress={navigateBack} />} />
-          }
-        />
+    <Layout style={{ flex: 1 }}>
+      <TopNavigation
+        title="Perfil de usuário"
+        accessoryLeft={
+          <TopNavigationAction icon={<Icon name="arrow-back" onPress={navigateBack} />} />
+        }
+      />
 
-        <Layout style={{ paddingHorizontal: 20 }}>
-          <Card style={{ margin: 0 }}>
-            <View style={{ paddingVertical: 10 }}>
-              <Text category="s2">Email</Text>
-              <Text category="p1">{currentUser?.email}</Text>
-            </View>
+      <Layout style={{ paddingHorizontal: 20 }}>
+        <Card style={{ margin: 0 }}>
+          <View style={{ paddingVertical: 10 }}>
+            <Text category="s2">Email</Text>
+            <Text category="p1">{currentUser?.email}</Text>
+          </View>
 
-            <Divider />
+          <Divider />
 
-            {isPartyPlace(currentUser?.user_type) ? (
-              <View>
-                <View style={{ paddingVertical: 10 }}>
-                  <Text category="s2">Endereço</Text>
-                  <Text category="p1">
-                    {currentUser?.party_place?.address?.street}, nº{' '}
-                    {currentUser?.party_place?.address?.place_number}
-                  </Text>
-                </View>
-
-                <View style={{ paddingVertical: 10 }}>
-                  <Text category="s2">Cidade</Text>
-                  <Text category="p1">{currentUser?.party_place?.address?.city}</Text>
-                </View>
-              </View>
-            ) : (
-              <View>
-                <View style={{ paddingVertical: 10 }}>
-                  <Text category="s2">Nome</Text>
-                  <Text category="p1">{currentUser?.partyer.name}</Text>
-                </View>
-
-                <View style={{ paddingVertical: 10 }}>
-                  <Text category="s2">Genero</Text>
-                  <Text category="p1">{currentUser?.partyer.gender}</Text>
-                </View>
-
-                <View style={{ paddingVertical: 10 }}>
-                  <Text category="s2">Data de nascimento</Text>
-                  <Text category="p1">{currentUser?.partyer['birth_date']}</Text>
-                </View>
-              </View>
-            )}
-
+          {isPartyPlace(currentUser?.user_type) ? (
             <View>
-              <Text category="s2">Cadastrado desde</Text>
-              <Text category="p1">{moment(currentUser?.created_at).format('DD/MM/YYYY')}</Text>
+              <View style={{ paddingVertical: 10 }}>
+                <Text category="s2">Endereço</Text>
+                <Text category="p1">
+                  {currentUser?.party_place?.address?.street}, nº{' '}
+                  {currentUser?.party_place?.address?.place_number}
+                </Text>
+              </View>
+
+              <View style={{ paddingVertical: 10 }}>
+                <Text category="s2">Cidade</Text>
+                <Text category="p1">{currentUser?.party_place?.address?.city}</Text>
+              </View>
             </View>
-          </Card>
+          ) : (
+            <View>
+              <View style={{ paddingVertical: 10 }}>
+                <Text category="s2">Nome</Text>
+                <Text category="p1">{currentUser?.partyer.name}</Text>
+              </View>
 
-          <Button
-            onPress={() => setShowDestroyUserModal(true)}
-            status="danger"
-            style={{ marginVertical: 20 }}
-          >
-            Excluir Usuário
-          </Button>
-        </Layout>
+              <View style={{ paddingVertical: 10 }}>
+                <Text category="s2">Genero</Text>
+                <Text category="p1">{currentUser?.partyer.gender}</Text>
+              </View>
 
-        <Modal
-          visible={showDestroyUserModal}
-          backdropStyle={styles.backdrop}
-          onBackdropPress={() => setShowDestroyUserModal(false)}
+              <View style={{ paddingVertical: 10 }}>
+                <Text category="s2">Data de nascimento</Text>
+                <Text category="p1">{currentUser?.partyer['birth_date']}</Text>
+              </View>
+            </View>
+          )}
+
+          <View>
+            <Text category="s2">Cadastrado desde</Text>
+            <Text category="p1">{moment(currentUser?.created_at).format('DD/MM/YYYY')}</Text>
+          </View>
+        </Card>
+
+        <Button
+          onPress={() => setShowDestroyUserModal(true)}
+          status="danger"
+          style={{ marginVertical: 20 }}
         >
-          <Card disabled={true} header={Header} footer={Footer} style={{ marginHorizontal: 20 }}>
-            <View style={{ flex: 1, alignItems: 'center' }}>
-              <Text category="p1" style={{ textAlign: 'center' }}>
-                Cuidado! Você tem certeza que deseja EXCLUIR a sua conta no Cola Aqui?
-              </Text>
-            </View>
-          </Card>
-        </Modal>
+          Excluir Usuário
+        </Button>
       </Layout>
-    )
+
+      <Modal
+        visible={showDestroyUserModal}
+        backdropStyle={styles.backdrop}
+        onBackdropPress={() => setShowDestroyUserModal(false)}
+      >
+        <Card disabled={true} header={Header} footer={Footer} style={{ marginHorizontal: 20 }}>
+          <View style={{ flex: 1, alignItems: 'center' }}>
+            <Text category="p1" style={{ textAlign: 'center' }}>
+              Cuidado! Você tem certeza que deseja EXCLUIR a sua conta no Cola Aqui?
+            </Text>
+          </View>
+        </Card>
+      </Modal>
+    </Layout>
   );
 }
 

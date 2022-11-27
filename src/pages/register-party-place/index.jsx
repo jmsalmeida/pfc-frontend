@@ -4,14 +4,13 @@ import {
   Icon,
   Input,
   Layout,
-  Radio,
   Text,
   TopNavigation,
   TopNavigationAction,
 } from '@ui-kitten/components';
 import { cnpj } from 'cpf-cnpj-validator';
 import { useState } from 'react';
-import { Linking, ScrollView, View } from 'react-native';
+import { ScrollView, View } from 'react-native';
 import Toast from 'react-native-toast-message';
 import { InputWithMask } from '../../components/input-with-mask';
 import { api } from '../../services/api';
@@ -106,7 +105,6 @@ export function RegisterPartyPlaceScreen({ navigation }) {
   const [emailConfirmation, setEmailConfirmation] = useState('');
   const [password, setPassword] = useState('');
   const [passwordConfirmation, setPasswordConfirmation] = useState('');
-  const [checked, setChecked] = useState(false);
   const [whileRegistering, setWhileRegistering] = useState(false);
 
   return (
@@ -286,24 +284,6 @@ export function RegisterPartyPlaceScreen({ navigation }) {
                 )}
               />
             </Layout>
-
-            <Layout style={styles.radioTerms}>
-              <Radio
-                style={{ marginRight: 5 }}
-                checked={checked}
-                onChange={(nextChecked) => setChecked(nextChecked)}
-              >
-                <Text
-                  category="c1"
-                  style={styles.hyperlinkStyle}
-                  onPress={() => {
-                    Linking.openURL('https://reactnative.dev');
-                  }}
-                >
-                  Termos de uso
-                </Text>
-              </Radio>
-            </Layout>
           </Layout>
         </ScrollView>
 
@@ -326,7 +306,6 @@ export function RegisterPartyPlaceScreen({ navigation }) {
                 password,
                 passwordConfirmation,
                 password === passwordConfirmation,
-                checked,
                 cnpj.isValid(partyPlaceCnpj),
               ]) || whileRegistering
             }

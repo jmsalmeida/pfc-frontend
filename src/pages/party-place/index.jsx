@@ -6,8 +6,9 @@ import {
   TopNavigationAction,
   Icon,
   Divider,
+  Spinner,
 } from '@ui-kitten/components';
-import { ActivityIndicator, View, Image, ScrollView } from 'react-native';
+import { View, Image, ScrollView } from 'react-native';
 import { api } from '../../services/api';
 import Toast from 'react-native-toast-message';
 import { Checkin } from '../../components/checkin';
@@ -238,7 +239,19 @@ export function PartyPlaceScreen({ route, navigation }) {
             }
           />
 
-          {loading ? <ActivityIndicator /> : renderPartyInfo()}
+          {loading ? (
+            <View
+              style={{
+                flex: 1,
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}
+            >
+              <Spinner />
+            </View>
+          ) : (
+            renderPartyInfo()
+          )}
         </Layout>
       </ScrollView>
 

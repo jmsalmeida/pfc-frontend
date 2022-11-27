@@ -1,6 +1,15 @@
-import { Icon, Input, Layout, Text, Button, Divider, TopNavigation } from '@ui-kitten/components';
+import {
+  Icon,
+  Input,
+  Layout,
+  Text,
+  Button,
+  Divider,
+  TopNavigation,
+  Spinner,
+} from '@ui-kitten/components';
 import { useEffect, useState, useCallback, useMemo } from 'react';
-import { ActivityIndicator, FlatList, View } from 'react-native';
+import { FlatList, View } from 'react-native';
 import { NotFound } from '../../components/item-not-found';
 import { LogoutAction } from '../../components/logout-action';
 import { PartyPlaceCard } from '../../components/party-place-card';
@@ -164,8 +173,8 @@ export function SearchPartyScreen({ navigation }) {
 
       <View style={{ flex: 1 }}>
         {isLoading ? (
-          <View style={{ flex: 1, justifyContent: 'center' }}>
-            <ActivityIndicator />
+          <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+            <Spinner />
           </View>
         ) : (
           partyPlaceResults()

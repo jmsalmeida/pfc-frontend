@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "frontend",
-    "slug": "frontend",
+    "name": "Cola Aqui",
+    "slug": "Cola Aqui",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./src/assets/icon.png",

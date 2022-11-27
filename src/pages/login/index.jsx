@@ -1,4 +1,4 @@
-import React from 'react';
+import { useState } from 'react';
 import Toast from 'react-native-toast-message';
 
 import { Button, Input, Layout, Text } from '@ui-kitten/components';
@@ -17,13 +17,16 @@ export function LoginScreen({ navigation }) {
     navigation.navigate('SelectUserType');
   };
 
-  const [email, setEmail] = React.useState('');
-  const [password, setPassword] = React.useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [whileLoginUser, setWhileLoginUser] = useState(false);
 
   const authenticateUser = async (event) => {
     event.preventDefault();
 
     try {
+      setWhileLoginUser(true);
+
       const response = await api.post('/auth/signin', {
         body: JSON.stringify({ email, password }),
       });
@@ -58,6 +61,8 @@ export function LoginScreen({ navigation }) {
         type: 'error',
         text1: errorMessage,
       });
+    } finally {
+      setWhileLoginUser(false);
     }
   };
 
@@ -88,7 +93,7 @@ export function LoginScreen({ navigation }) {
         <Layout>
           <Button
             style={styles.actionButton}
-            disabled={disableButton([email, password])}
+            disabled={disableButton([email, password]) || whileLoginUser}
             onPress={authenticateUser}
           >
             Acessar

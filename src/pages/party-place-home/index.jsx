@@ -73,15 +73,16 @@ export function PartyPlaceHomeScreen({ navigation }) {
     <View {...props} style={[props.style, styles.footerContainer]}>
       <Layout style={styles.formCenterTitle}>
         <Text category="h6" style={styles.formBottomTitle}>
-          Número de check-in
+          Visitantes
         </Text>
       </Layout>
       <Text category="p1" style={styles.formBottomText}>
-        Dia anterior: {checkinsYesterday()}
+        Numero de visitas hoje:
+        <Text category="s1"> {checkinsToday()}</Text>
       </Text>
       <Text category="p1" style={styles.formBottomText}>
-        Numero de visitas hoje:
-        <Text category="s1"> {checkinsToday()} +</Text>
+        Numero de visitas dia anterior:
+        <Text category="s1"> {checkinsYesterday()}</Text>
       </Text>
     </View>
   );

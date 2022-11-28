@@ -33,7 +33,7 @@ export function SearchPartyScreen({ navigation }) {
   const [partyTypeList, setPartyTypeList] = useState([]);
   const [musicStyleList, setMusicStyleList] = useState([]);
 
-  const getPartyPlaces = async (url = '/party-places') => {
+  const getPartyPlaces = async (url = '/party-places?per-page=100') => {
     setLoading(true);
 
     try {

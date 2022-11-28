@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import Toast from 'react-native-toast-message';
 
-import { Button, Input, Layout, Text } from '@ui-kitten/components';
-import { Image } from 'react-native';
+import { Button, Input, Layout, Spinner, Text } from '@ui-kitten/components';
+import { Image, View } from 'react-native';
 import { useDispatch } from 'react-redux';
 import { disableButton } from '../../util/utils.js';
 import { styles } from './styles';
@@ -98,6 +98,12 @@ export function LoginScreen({ navigation }) {
           >
             Acessar
           </Button>
+
+          {whileLoginUser && (
+            <View style={{ alignItems: 'center', marginVertical: 20 }}>
+              <Spinner />
+            </View>
+          )}
 
           <Text style={styles.registerLabel}>
             Ainda não é cadastrado?{' '}

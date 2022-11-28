@@ -163,7 +163,7 @@ export function CompletePartyFeaturesScreen() {
             height: '100%',
           }}
           content={stepperContent.map((stepper) => stepper.component)}
-          buttonStyle={{ paddingHorizontal: 30, borderRadius: 50 }}
+          buttonStyle={{ paddingHorizontal: 30, borderRadius: 8 }}
         />
       </View>
     </Layout>

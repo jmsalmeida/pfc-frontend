@@ -94,13 +94,15 @@ export function SearchPartyScreen({ navigation }) {
     if (!partyPlaces.length) return <NotFound />;
 
     return (
-      <View style={{ paddingBottom: 60 }}>
+      <View style={{ marginBottom: 40 }}>
         <Text category="s2">{partyPlaces.length} resultados</Text>
 
         <FlatList
           data={partyPlaces}
           keyExtractor={({ id }) => id}
-          renderItem={({ item }) => <PartyPlaceCard partyPlace={item} navigation={navigation} />}
+          renderItem={({ item, index }) => (
+            <PartyPlaceCard partyPlace={item} navigation={navigation} imageIndex={index} />
+          )}
         />
       </View>
     );

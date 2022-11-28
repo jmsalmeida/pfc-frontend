@@ -1,10 +1,13 @@
 import { Icon, Layout, Text } from '@ui-kitten/components';
 import { styles } from './styles';
 import { ImageBackground, View, TouchableOpacity } from 'react-native';
+import { PARTY_PLACE_IMAGE_PATHS } from '../../constants';
 
-export function PartyPlaceCard({ partyPlace, navigation }) {
+export function PartyPlaceCard({ partyPlace, navigation, imageIndex }) {
+  const placeImage = PARTY_PLACE_IMAGE_PATHS[imageIndex];
+
   const navigatePartyPlace = () => {
-    navigation.navigate('PartyPlace', { placeId: partyPlace.id });
+    navigation.navigate('PartyPlace', { placeId: partyPlace.id, placeImage });
   };
 
   const { street, city, place_number, district } = partyPlace.address;
@@ -42,7 +45,7 @@ export function PartyPlaceCard({ partyPlace, navigation }) {
       <View {...props}>
         <ImageBackground
           resizeMode="cover"
-          source={require('../../assets/img_pub.png')}
+          source={placeImage}
           style={{ flex: 1, height: 250 }}
           imageStyle={{
             borderTopLeftRadius: 20,

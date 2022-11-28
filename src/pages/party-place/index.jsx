@@ -16,7 +16,7 @@ import isEmpty from 'lodash/isEmpty';
 import { Tag } from '../../components/Tag';
 
 export function PartyPlaceScreen({ route, navigation }) {
-  const { placeId } = route.params;
+  const { placeId, placeImage } = route.params;
 
   const navigateSearchParty = useCallback(() => {
     navigation.navigate('SearchParty');
@@ -186,7 +186,7 @@ export function PartyPlaceScreen({ route, navigation }) {
         <View>
           <Image
             style={{ width: 'auto', height: 200, borderRadius: 20, marginVertical: 20 }}
-            source={require('../../assets/img_pub.png')}
+            source={placeImage}
           />
 
           <View

@@ -35,7 +35,7 @@ export function CompletePartyFeaturesScreen() {
     };
 
     try {
-      const response = await api.patch(`/party-features/${currentUser.party_place.id}`, {
+      const response = await api.patch(`/party-features/${currentUser?.party_place?.id}`, {
         body: JSON.stringify({ partyFeatures: { ...partyFeatures } }),
       });
 
@@ -69,7 +69,7 @@ export function CompletePartyFeaturesScreen() {
   const RenderInitialSelection = () => (
     <View>
       <View style={{ paddingVertical: 20 }}>
-        <Text category="h4">Olá {currentUser.party_place.main_contact}!</Text>
+        <Text category="h4">Olá {currentUser?.party_place?.main_contact}!</Text>
         <Text category="p1">Conte para nós como é o seu estabelecimento.</Text>
       </View>
 
@@ -163,7 +163,7 @@ export function CompletePartyFeaturesScreen() {
             height: '100%',
           }}
           content={stepperContent.map((stepper) => stepper.component)}
-          buttonStyle={{ paddingHorizontal: 30, borderRadius: 50 }}
+          buttonStyle={{ paddingHorizontal: 30, borderRadius: 8 }}
         />
       </View>
     </Layout>

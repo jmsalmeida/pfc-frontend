@@ -1,6 +1,15 @@
-import { Icon, Input, Layout, Text, Button, Divider, TopNavigation } from '@ui-kitten/components';
+import {
+  Icon,
+  Input,
+  Layout,
+  Text,
+  Button,
+  Divider,
+  TopNavigation,
+  Spinner,
+} from '@ui-kitten/components';
 import { useEffect, useState, useCallback, useMemo } from 'react';
-import { ActivityIndicator, FlatList, View } from 'react-native';
+import { FlatList, View } from 'react-native';
 import { NotFound } from '../../components/item-not-found';
 import { LogoutAction } from '../../components/logout-action';
 import { PartyPlaceCard } from '../../components/party-place-card';
@@ -24,7 +33,7 @@ export function SearchPartyScreen({ navigation }) {
   const [partyTypeList, setPartyTypeList] = useState([]);
   const [musicStyleList, setMusicStyleList] = useState([]);
 
-  const getPartyPlaces = async (url = '/party-places') => {
+  const getPartyPlaces = async (url = '/party-places?per-page=100') => {
     setLoading(true);
 
     try {
@@ -85,21 +94,29 @@ export function SearchPartyScreen({ navigation }) {
     if (!partyPlaces.length) return <NotFound />;
 
     return (
-      <View>
+      <View style={{ marginBottom: 40 }}>
         <Text category="s2">{partyPlaces.length} resultados</Text>
 
         <FlatList
           data={partyPlaces}
           keyExtractor={({ id }) => id}
-          renderItem={({ item }) => <PartyPlaceCard partyPlace={item} navigation={navigation} />}
+          renderItem={({ item, index }) => (
+            <PartyPlaceCard partyPlace={item} navigation={navigation} imageIndex={index} />
+          )}
         />
       </View>
     );
   };
 
+  const goToProfile = () => {
+    navigation.navigate('UserProfile');
+  };
+
+  const _renderUserProfileHeader = <UserProfileHeader onClick={goToProfile} />;
+
   return (
     <Layout style={{ flex: 1, paddingHorizontal: 20 }}>
-      <TopNavigation title={UserProfileHeader} accessoryRight={LogoutAction} />
+      <TopNavigation accessoryLeft={_renderUserProfileHeader} accessoryRight={LogoutAction} />
 
       <View
         style={{
@@ -158,8 +175,8 @@ export function SearchPartyScreen({ navigation }) {
 
       <View style={{ flex: 1 }}>
         {isLoading ? (
-          <View style={{ flex: 1, justifyContent: 'center' }}>
-            <ActivityIndicator />
+          <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+            <Spinner />
           </View>
         ) : (
           partyPlaceResults()

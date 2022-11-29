@@ -10,7 +10,7 @@ import { UserProfileHeader } from '../../components/user-profile-header';
 import { api } from '../../services/api';
 import { styles } from './styles';
 
-export function PartyPlaceHomeScreen() {
+export function PartyPlaceHomeScreen({ navigation }) {
   const currentUser = useSelector((state) => state.userSession.currentUser);
   const [partyPlace, setPartyPlace] = useState({});
 
@@ -37,7 +37,7 @@ export function PartyPlaceHomeScreen() {
   };
 
   const getPartyPlace = useCallback(async () => {
-    const url = `party-places/${currentUser.party_place.id}`;
+    const url = `party-places/${currentUser?.party_place.id}`;
 
     try {
       let response = await api.get(url);
@@ -73,38 +73,50 @@ export function PartyPlaceHomeScreen() {
     <View {...props} style={[props.style, styles.footerContainer]}>
       <Layout style={styles.formCenterTitle}>
         <Text category="h6" style={styles.formBottomTitle}>
-          Número de check-in
+          Visitantes
         </Text>
       </Layout>
       <Text category="p1" style={styles.formBottomText}>
-        Dia anterior: {checkinsYesterday()}
+        Numero de visitas hoje:
+        <Text category="s1"> {checkinsToday()}</Text>
       </Text>
       <Text category="p1" style={styles.formBottomText}>
-        Numero de visitas hoje:
-        <Text category="s1"> {checkinsToday()} +</Text>
+        Numero de visitas dia anterior:
+        <Text category="s1"> {checkinsYesterday()}</Text>
       </Text>
     </View>
   );
 
+  const goToProfile = () => {
+    navigation.navigate('UserProfile');
+  };
+
+  const _renderUserProfileHeader = <UserProfileHeader onClick={goToProfile} />;
+
   return (
     <Layout style={{ flex: 1, paddingHorizontal: 20 }}>
-      <TopNavigation title={UserProfileHeader} accessoryRight={LogoutAction} />
+      <TopNavigation accessoryLeft={_renderUserProfileHeader} accessoryRight={LogoutAction} />
+
       <Layout style={styles.formCenterTitle}>
         <Text category="h5" style={styles.formTitle}>
           Perfil do estabelecimento
         </Text>
       </Layout>
+
       {Object.keys(partyPlace).length > 0 && (
         <Card style={partyPlaceCardStyles.card} header={Header} footer={Footer}>
           <Text style={styles.formMiddleText}>
             Contato principal: <Text category="s1">{partyPlace.main_contact}</Text>
           </Text>
+
           <Text style={styles.formMiddleText}>
             CNPJ: <Text category="s1">{partyPlace.cnpj}</Text>
           </Text>
+
           <Text style={styles.formMiddleText}>
             Celular para contato: <Text category="s1">{partyPlace.cellphone}</Text>
           </Text>
+
           <Text style={styles.formMiddleText}>
             Endereço cadastrado:
             <Text category="s1">

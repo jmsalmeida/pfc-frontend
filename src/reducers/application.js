@@ -20,7 +20,10 @@ export const sessionSlice = createSlice({
       state.currentUser = null;
     },
     setFeaturesIsCompleted: (state, action) => {
-      state.currentUser = { ...action.payload, party_place: { features_is_completed: true } };
+      state.currentUser = {
+        ...action.payload,
+        party_place: { ...action.payload.party_place, features_is_completed: true },
+      };
     },
   },
 });

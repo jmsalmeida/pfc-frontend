@@ -39,6 +39,6 @@ const styles = StyleSheet.create({
 
   activeTag: {
     color: '#fff',
-    backgroundColor: 'orange',
+    backgroundColor: '#E09C0F',
   },
 });

@@ -11,7 +11,8 @@ export const styles = StyleSheet.create({
   inputContainer: { paddingVertical: 5 },
   registerLabel: { textAlign: 'center', paddingTop: 50 },
   registerLink: {
-    color: '#3366FF',
+    color: '#E09C0F',
+    fontWeight: '700',
     textDecorationLine: 'underline',
   },
 
@@ -21,7 +22,7 @@ export const styles = StyleSheet.create({
   },
 
   logoImage: {
-    width: 200,
-    height: 200,
+    width: 300,
+    height: 300,
   },
 });

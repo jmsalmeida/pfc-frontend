@@ -16,6 +16,7 @@ import { AppNavigator } from './src/navigators/navigation';
 import NetInfo from '@react-native-community/netinfo';
 import { onlineManager } from 'react-query';
 import { QueryClient, QueryClientProvider } from 'react-query';
+import { default as theme } from './theme.json';
 
 onlineManager.setEventListener((setOnline) => {
   return NetInfo.addEventListener((state) => {
@@ -31,7 +32,7 @@ export default function App() {
       <QueryClientProvider client={queryClient}>
         <IconRegistry icons={EvaIconsPack} />
 
-        <ApplicationProvider {...eva} theme={eva.light}>
+        <ApplicationProvider {...eva} theme={{ ...eva.light, ...theme }}>
           <AppNavigator />
         </ApplicationProvider>
 

@@ -12,7 +12,7 @@ export function Checkin({ partyPlace, onSucess }) {
 
   const Header = (props) => (
     <View {...props}>
-      <Text category="h6">Confirmar</Text>
+      <Text category="h6">Confirmar check-in</Text>
     </View>
   );
 
@@ -48,14 +48,16 @@ export function Checkin({ partyPlace, onSucess }) {
 
   return (
     <View style={styles.container}>
-      <Button onPress={() => setVisible(true)}>Cola Aqui</Button>
+      <Button onPress={() => setVisible(true)} style={{ margin: 8 }}>
+        Cola Aqui
+      </Button>
 
       <Modal
         visible={visible}
         backdropStyle={styles.backdrop}
         onBackdropPress={() => setVisible(false)}
       >
-        <Card disabled={true} header={Header} footer={Footer}>
+        <Card disabled={true} header={Header} footer={Footer} style={{ marginHorizontal: 20 }}>
           <View style={{ flex: 1, alignItems: 'center', textAlign: 'center' }}>
             <Text>
               Legal, bora visitar o rolê &quot;<Text category="label">{partyPlace.name}</Text>

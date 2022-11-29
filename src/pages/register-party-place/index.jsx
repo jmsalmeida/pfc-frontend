@@ -4,14 +4,13 @@ import {
   Icon,
   Input,
   Layout,
-  Radio,
   Text,
   TopNavigation,
-  TopNavigationAction
+  TopNavigationAction,
 } from '@ui-kitten/components';
 import { cnpj } from 'cpf-cnpj-validator';
-import React from 'react';
-import { Linking, ScrollView, View } from 'react-native';
+import { useState } from 'react';
+import { ScrollView, View } from 'react-native';
 import Toast from 'react-native-toast-message';
 import { InputWithMask } from '../../components/input-with-mask';
 import { api } from '../../services/api';
@@ -51,8 +50,10 @@ export function RegisterPartyPlaceScreen({ navigation }) {
     };
 
     try {
+      setWhileRegistering(true);
+
       const response = await api.post('/auth/signup/party-place', {
-        body: JSON.stringify(newUser),
+        body: JSON.stringify({ registerPartyPlace: { ...newUser } }),
       });
       if (!response.ok) throw response;
 
@@ -70,6 +71,8 @@ export function RegisterPartyPlaceScreen({ navigation }) {
         text1: 'Algo deu errado com o cadastro!',
         text2: errorMessage,
       });
+    } finally {
+      setWhileRegistering(false);
     }
   };
 
@@ -88,21 +91,21 @@ export function RegisterPartyPlaceScreen({ navigation }) {
       </View>
     ) : null;
 
-  const [name, setName] = React.useState('');
-  const [partyPlaceCnpj, setPartyPlaceCnpj] = React.useState('');
-  const [postalCode, setPostalCode] = React.useState('');
-  const [street, setStreet] = React.useState('');
-  const [placeNumber, setPlaceNumber] = React.useState('');
-  const [district, setDistrict] = React.useState('');
-  const [city, setCity] = React.useState('');
-  const [mainContact, setMainContact] = React.useState('');
-  const [phone, setPhone] = React.useState('');
-  const [cellphone, setCellphone] = React.useState('');
-  const [email, setEmail] = React.useState('');
-  const [emailConfirmation, setEmailConfirmation] = React.useState('');
-  const [password, setPassword] = React.useState('');
-  const [passwordConfirmation, setPasswordConfirmation] = React.useState('');
-  const [checked, setChecked] = React.useState(false);
+  const [name, setName] = useState('');
+  const [partyPlaceCnpj, setPartyPlaceCnpj] = useState('');
+  const [postalCode, setPostalCode] = useState('');
+  const [street, setStreet] = useState('');
+  const [placeNumber, setPlaceNumber] = useState('');
+  const [district, setDistrict] = useState('');
+  const [city, setCity] = useState('');
+  const [mainContact, setMainContact] = useState('');
+  const [phone, setPhone] = useState('');
+  const [cellphone, setCellphone] = useState('');
+  const [email, setEmail] = useState('');
+  const [emailConfirmation, setEmailConfirmation] = useState('');
+  const [password, setPassword] = useState('');
+  const [passwordConfirmation, setPasswordConfirmation] = useState('');
+  const [whileRegistering, setWhileRegistering] = useState(false);
 
   return (
     <Layout style={{ flex: 1, paddingTop: 20 }}>
@@ -281,48 +284,31 @@ export function RegisterPartyPlaceScreen({ navigation }) {
                 )}
               />
             </Layout>
-
-            <Layout style={styles.radioTerms}>
-              <Radio
-                style={{ marginRight: 5 }}
-                checked={checked}
-                onChange={(nextChecked) => setChecked(nextChecked)}
-              >
-                <Text
-                  category="c1"
-                  style={styles.hyperlinkStyle}
-                  onPress={() => {
-                    Linking.openURL('https://reactnative.dev');
-                  }}
-                >
-                  Termos de uso
-                </Text>
-              </Radio>
-            </Layout>
           </Layout>
         </ScrollView>
 
         <Layout style={styles.submitButton}>
           <Button
-            disabled={disableButton([
-              name,
-              partyPlaceCnpj,
-              postalCode,
-              street,
-              placeNumber,
-              district,
-              city,
-              mainContact,
-              cellphone,
-              email,
-              emailConfirmation,
-              email.toLowerCase() === emailConfirmation.toLowerCase(),
-              password,
-              passwordConfirmation,
-              password === passwordConfirmation,
-              checked,
-              cnpj.isValid(partyPlaceCnpj),
-            ])}
+            disabled={
+              disableButton([
+                name,
+                partyPlaceCnpj,
+                postalCode,
+                street,
+                placeNumber,
+                district,
+                city,
+                mainContact,
+                cellphone,
+                email,
+                emailConfirmation,
+                email.toLowerCase() === emailConfirmation.toLowerCase(),
+                password,
+                passwordConfirmation,
+                password === passwordConfirmation,
+                cnpj.isValid(partyPlaceCnpj),
+              ]) || whileRegistering
+            }
             onPress={registerPartyPlace}
           >
             Cadastrar Estabelecimento

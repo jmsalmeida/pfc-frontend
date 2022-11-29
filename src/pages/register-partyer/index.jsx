@@ -1,5 +1,5 @@
 import moment from 'moment';
-import React from 'react';
+import { useState } from 'react';
 import Toast from 'react-native-toast-message';
 
 import {
@@ -13,7 +13,7 @@ import {
   SelectItem,
   Text,
   TopNavigation,
-  TopNavigationAction
+  TopNavigationAction,
 } from '@ui-kitten/components';
 import { ScrollView, View } from 'react-native';
 import { api } from '../../services/api';
@@ -31,16 +31,17 @@ export function RegisterPartyerScreen({ navigation }) {
     return <TopNavigationAction icon={generateIcon('arrow-back')} onPress={navigateBack} />;
   }
 
-  const [name, setName] = React.useState('');
-  const [lastName, setLastName] = React.useState('');
-  const [birthDate, setBirthDate] = React.useState('');
-  const [email, setEmail] = React.useState('');
-  const [emailConfirmation, setEmailConfirmation] = React.useState('');
-  const [password, setPassword] = React.useState('');
-  const [passwordConfirmation, setPasswordConfirmation] = React.useState('');
+  const [name, setName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [birthDate, setBirthDate] = useState('');
+  const [email, setEmail] = useState('');
+  const [emailConfirmation, setEmailConfirmation] = useState('');
+  const [password, setPassword] = useState('');
+  const [passwordConfirmation, setPasswordConfirmation] = useState('');
 
   const genders = ['Feminino', 'Masculino', 'Outro'];
-  const [selectedIndex, setSelectedIndex] = React.useState();
+  const [selectedIndex, setSelectedIndex] = useState();
+  const [whileRegistering, setWhileRegistering] = useState(false);
 
   const renderOption = (title) => <SelectItem key={title} title={title} />;
 
@@ -57,7 +58,11 @@ export function RegisterPartyerScreen({ navigation }) {
     };
 
     try {
-      const response = await api.post('/auth/signup/partyer', { body: JSON.stringify(newUser) });
+      setWhileRegistering(true);
+
+      const response = await api.post('/auth/signup/partyer', {
+        body: JSON.stringify({ registerPartyer: { ...newUser } }),
+      });
       if (!response.ok) throw response;
 
       const { name } = newUser.partyer;
@@ -74,6 +79,8 @@ export function RegisterPartyerScreen({ navigation }) {
         text1: 'Algo deu errado com o cadastro!',
         text2: `${errorMessage}`,
       });
+    } finally {
+      setWhileRegistering(false);
     }
   };
 
@@ -214,16 +221,18 @@ export function RegisterPartyerScreen({ navigation }) {
 
         <Layout style={styles.submitButton}>
           <Button
-            disabled={disableButton([
-              name,
-              lastName,
-              selectedIndex,
-              password,
-              passwordConfirmation,
-              !isUnderAge(birthDate),
-              password === passwordConfirmation,
-              email.toLowerCase() == emailConfirmation.toLowerCase(),
-            ])}
+            disabled={
+              disableButton([
+                name,
+                lastName,
+                selectedIndex,
+                password,
+                passwordConfirmation,
+                !isUnderAge(birthDate),
+                password === passwordConfirmation,
+                email.toLowerCase() == emailConfirmation.toLowerCase(),
+              ]) || whileRegistering
+            }
             onPress={registerPartyer}
           >
             cadastrar usuário

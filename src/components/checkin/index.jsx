@@ -30,10 +30,12 @@ export function Checkin({ partyPlace, onSucess }) {
       setVisible(false);
       onSucess();
     } catch (error) {
+      setVisible(false);
       const errorMessage = error.body.errors[0];
       Toast.show({
         type: 'error',
-        text1: errorMessage,
+        text1: 'Checkin não permitido',
+        text2: errorMessage,
       });
     }
   };
